@@ -25,11 +25,13 @@ HTML, CSS e JavaScript puro, pubblicata gratis con GitHub Pages. Le risposte fin
    - Chi ha accesso: **Chiunque**
    - Autorizza quando richiesto, poi copia l'**URL dell'app web**.
 5. Incolla l'URL in `js/config.js` alla voce `appsScriptUrl`.
-6. Ricarica il foglio: compare il menu **🎓 Festa**. Clicca **Prepara il foglio**.
-7. Scrivi i nomi degli invitati nella colonna `nome`, poi **🎓 Festa → Genera i link degli invitati**.
-   Nella colonna `link` trovi il link personale da mandare a ciascuno su WhatsApp.
+6. Ricarica il foglio: compare il menu **🎓 Festa**. Clicca **Prepara il foglio** (scrive le intestazioni in riga 1).
 
-Chi ha la colonna `risposta` vuota non ha ancora risposto. La colonna `punteggio` contiene il miglior punteggio del minigioco.
+Manda a tutti lo stesso link del sito: chi risponde scrive nome e cognome e compare da solo come nuova riga.
+La colonna `punteggio` contiene il miglior punteggio del minigioco.
+
+**Opzionale, link personali:** per vedere anche chi non ha ancora risposto, scrivi i nomi nella colonna `nome`
+e usa **🎓 Festa → Genera i link degli invitati**; nella colonna `link` trovi il link da mandare a ciascuno.
 
 > Se modifichi `Code.gs`, fai **Gestisci deployment → Modifica → Nuova versione**, altrimenti il sito continua a usare la versione vecchia.
 

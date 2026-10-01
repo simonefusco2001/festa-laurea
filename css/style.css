@@ -253,6 +253,7 @@ input, select, textarea {
   width: 100%; font: inherit; padding: 10px 12px; margin-top: 4px;
   border: 2px solid var(--ink); border-radius: 10px; background: var(--cream);
 }
+.hint { font-size: 13px; margin: 6px 0 0; color: #444; }
 .err { color: #b00020; font-size: 14px; margin-top: 8px; min-height: 20px; }
 
 /* ---------- Footer ---------- */

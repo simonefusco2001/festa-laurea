@@ -58,5 +58,10 @@
     })();
   }
 
-  window.Festa = { getToken, api, confetti };
+  // Nome e cognome: almeno due parole di almeno due lettere ("Batman" o "Gigi" non passano)
+  function validName(s) {
+    return String(s || '').trim().split(/\s+/).filter(w => /\p{L}{2,}/u.test(w)).length >= 2;
+  }
+
+  window.Festa = { getToken, api, confetti, validName };
 })();

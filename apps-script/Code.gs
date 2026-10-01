@@ -10,8 +10,11 @@
 const SHEET_NAME = 'Invitati';
 const HEADERS = [
   'nome', 'token', 'link', 'risposta', 'piu_uno', 'allergie',
-  'motivo_no', 'nota', 'data_risposta', 'punteggio', 'data_punteggio'
+  'motivo_no', 'nota', 'data_risposta', 'punteggio', 'data_punteggio', 'controllo'
 ];
+// Valori della colonna "controllo" per le righe create dal sito
+const NON_IN_LISTA = '⚠️ non in lista, da verificare';
+const DAL_SITO = 'aggiunto dal sito';
 const COL = HEADERS.reduce((o, h, i) => (o[h] = i + 1, o), {});
 const MAX_SCORE = 100000;
 
@@ -30,11 +33,13 @@ function preparaFoglio() {
   sh.setFrozenRows(1);
   // colori automatici sulla colonna risposta
   const r = sh.getRange(2, COL.risposta, 500, 1);
+  const c = sh.getRange(2, COL.controllo, 500, 1);
   sh.setConditionalFormatRules([
     SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo('Sì').setBackground('#C8F7C5').setRanges([r]).build(),
-    SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo('No').setBackground('#FFC9C9').setRanges([r]).build()
+    SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo('No').setBackground('#FFC9C9').setRanges([r]).build(),
+    SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo(NON_IN_LISTA).setBackground('#FFE0A3').setRanges([c]).build()
   ]);
-  SpreadsheetApp.getUi().alert('Foglio pronto. Scrivi i nomi degli invitati nella colonna "nome", poi usa "Genera i link degli invitati".');
+  SpreadsheetApp.getUi().alert('Foglio pronto. Se vuoi, scrivi nome e cognome degli invitati nella colonna "nome": le risposte verranno abbinate e chi non è in lista verrà segnalato.');
 }
 
 function generaLink() {
@@ -83,7 +88,7 @@ function rsvp_(d) {
   const risposta = d.risposta === 'yes' ? 'Sì' : d.risposta === 'no' ? 'No' : '';
   if (!risposta) return { ok: false, error: 'risposta mancante' };
   const row = findOrCreate_(d);
-  if (!row) return { ok: false, error: 'ospite non riconosciuto' };
+  if (!row) return { ok: false, error: 'nome e cognome mancanti' };
   const sh = sheet_();
   sh.getRange(row, COL.risposta).setValue(risposta);
   sh.getRange(row, COL.piu_uno).setValue(risposta === 'Sì' ? Number(d.plus) || 0 : '');
@@ -98,7 +103,7 @@ function score_(d) {
   const s = Math.floor(Number(d.score));
   if (!isFinite(s) || s < 0 || s > MAX_SCORE) return { ok: false, error: 'punteggio non valido' };
   const row = findOrCreate_(d);
-  if (!row) return { ok: false, error: 'ospite non riconosciuto' };
+  if (!row) return { ok: false, error: 'nome e cognome mancanti' };
   const sh = sheet_();
   const prev = Number(sh.getRange(row, COL.punteggio).getValue()) || 0;
   if (s > prev) {
@@ -138,6 +143,9 @@ function sheet_() {
     sh = ss.insertSheet(SHEET_NAME);
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     sh.setFrozenRows(1);
+  } else if (!sh.getRange(1, COL.controllo).getValue()) {
+    // fogli preparati con una versione precedente: aggiunge l'ultima intestazione
+    sh.getRange(1, COL.controllo).setValue('controllo').setFontWeight('bold');
   }
   return sh;
 }
@@ -149,25 +157,41 @@ function findRow_(d) {
   if (last < 2) return 0;
   const data = sh.getRange(2, 1, last - 1, HEADERS.length).getValues();
   const token = clean_(d.token);
-  const nome = clean_(d.nome).toLowerCase();
+  const nome = nameKey_(d.nome);
   if (token) {
     const i = data.findIndex(r => String(r[COL.token - 1]) === token);
     if (i >= 0) return i + 2;
   }
   if (nome) {
-    const i = data.findIndex(r => String(r[COL.nome - 1]).trim().toLowerCase() === nome);
+    const i = data.findIndex(r => nameKey_(r[COL.nome - 1]) === nome);
     if (i >= 0) return i + 2;
   }
   return 0;
+}
+
+// "  Rossi  Màrco " e "marco rossi" diventano la stessa chiave: niente accenti, maiuscole o ordine delle parole
+function nameKey_(v) {
+  return String(v == null ? '' : v)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z' ]/g, ' ')
+    .split(/\s+/).filter(String).sort().join(' ');
 }
 
 function findOrCreate_(d) {
   const row = findRow_(d);
   if (row) return row;
   const nome = clean_(d.nome);
-  if (!nome) return 0;   // un codice sconosciuto senza nome non crea righe
+  // un codice sconosciuto senza nome, o un nome di una parola sola, non crea righe
+  if (nameKey_(nome).split(' ').filter(w => w.length >= 2).length < 2) return 0;
   const sh = sheet_();
-  sh.appendRow([nome, '', '(arrivato senza link personale)']);
+  // se hai scritto una lista di invitati (righe senza "controllo"), chi non c'è viene segnalato
+  const last = sh.getLastRow();
+  const hasList = last >= 2 && sh.getRange(2, 1, last - 1, HEADERS.length).getValues()
+    .some(r => r[COL.nome - 1] && !r[COL.controllo - 1]);
+  const row_ = new Array(HEADERS.length).fill('');
+  row_[COL.nome - 1] = nome;
+  row_[COL.controllo - 1] = hasList ? NON_IN_LISTA : DAL_SITO;
+  sh.appendRow(row_);
   return sh.getLastRow();
 }
 
