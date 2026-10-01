@@ -263,6 +263,11 @@ body.locked .nav { visibility: hidden; }
   .sticker { width: 96px; height: 96px; }
   .sticker-note { font-size: 13px; }
 }
+/* telefoni piccoli (iPhone SE): le etichette lunghe vanno su due righe invece di uscire dallo schermo */
+@media (max-width: 380px) {
+  .stickers { gap: 10px; }
+  .sticker-note { white-space: normal; max-width: 128px; text-align: center; line-height: 1.2; font-size: 12px; padding: 3px 10px; border-radius: 14px; }
+}
 
 /* ---------- Info ---------- */
 /* 2 colonne fisse: le 4 card formano un 2x2 senza card orfane spostate a sinistra */
