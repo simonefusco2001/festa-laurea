@@ -276,8 +276,11 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap--b { right: 10px; }
   .hero .sticker-note, .hero .sticker-arrow { display: none; }
   .hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
-  .hero .eyebrow { display: block; margin: 8px 0 24px; padding: 6px 70px; font-size: 16px; }
-  .hero .eyebrow b { display: block; font-size: clamp(18px, 6vw, 25px); line-height: 1.15; margin-top: 2px; }
+  .hero .eyebrow { display: block; margin: 8px 0 22px; padding: 8px 76px; font-size: 16px; }
+  /* stesse proporzioni del desktop: il titolo è l'elemento più largo, il resto più stretto e centrato */
+  .hero .btn--big { width: auto; display: inline-block; padding: 15px 30px; font-size: 20px; }
+  .hero .countdown { max-width: 300px; gap: 8px; }
+  .hero .countdown b { font-size: 28px; }
 }
 /* iPhone SE: sticker più piccoli così il messaggio della hero resta su due righe */
 @media (max-width: 360px) {
@@ -285,8 +288,7 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap { top: 92px; }
   .hero .sticker-wrap--a { left: 6px; }
   .hero .sticker-wrap--b { right: 6px; }
-  .hero .eyebrow { padding: 6px 56px; font-size: 14px; }
-  .hero .eyebrow b { font-size: 18px; }
+  .hero .eyebrow { padding: 6px 58px; font-size: 14px; }
 }
 /* telefoni piccoli (iPhone SE): le etichette lunghe vanno su due righe invece di uscire dallo schermo */
 @media (max-width: 380px) {
