@@ -58,10 +58,26 @@
     })();
   }
 
-  // Nome e cognome: almeno due parole di almeno due lettere ("Batman" o "Gigi" non passano)
-  function validName(s) {
-    return String(s || '').trim().split(/\s+/).filter(w => /\p{L}{2,}/u.test(w)).length >= 2;
+  // Stessa normalizzazione dello script: niente accenti, maiuscole o ordine delle parole
+  function nameKey(s) {
+    return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/[^a-z' ]/g, ' ').split(/\s+/).filter(String).sort().join(' ');
+  }
+  // Nomi famosi (criminali e nomi di comodo) usati per fare gli spiritosi
+  const BLOCKED = [
+    'massimo bossetti', 'filippo turetta', 'toto riina', 'salvatore riina', 'bernardo provenzano',
+    'matteo messina denaro', 'pietro maso', 'olindo romano', 'rosa bazzi', 'annamaria franzoni',
+    'alberto stasi', 'renato vallanzasca', 'felice maniero', 'donato bilancia', 'luigi chiatti',
+    'mario rossi', 'pinco pallino', 'gerry scotti', 'chuck norris'
+  ].map(nameKey);
+
+  // Restituisce un messaggio d'errore, oppure '' se il nome va bene
+  function nameError(s) {
+    const words = String(s || '').trim().split(/\s+/).filter(w => /\p{L}{2,}/u.test(w));
+    if (words.length < 2) return 'Scrivi nome e cognome veri, così so chi sei.';
+    if (BLOCKED.includes(nameKey(s))) return 'Bel tentativo. Ora scrivi il tuo nome vero.';
+    return '';
   }
 
-  window.Festa = { getToken, api, confetti, validName };
+  window.Festa = { getToken, api, confetti, nameError };
 })();

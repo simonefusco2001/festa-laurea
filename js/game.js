@@ -278,7 +278,8 @@
     $('#g-name-form').addEventListener('submit', e => {
       e.preventDefault();
       const nome = e.target.nome.value.trim();
-      if (!Festa.validName(nome)) { $('#g-saved').textContent = 'Scrivi nome e cognome veri: niente premio per "Batman".'; return; }
+      const nameErr = Festa.nameError(nome);
+      if (nameErr) { $('#g-saved').textContent = nameErr; return; }
       try { localStorage.setItem('festa_nome', nome); } catch (err) {}
       saveScore(getBest(), nome);
     });

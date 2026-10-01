@@ -99,7 +99,7 @@
   // Senza codice personale nel link, chiediamo il nome per sapere chi risponde.
   if (!Festa.getToken()) {
     $$('[data-name-field]').forEach(box => {
-      box.innerHTML = '<label>Nome e cognome<input name="nome" type="text" autocomplete="name" autocapitalize="words" placeholder="Mario Rossi" required></label>' +
+      box.innerHTML = '<label>Nome e cognome<input name="nome" type="text" autocomplete="name" autocapitalize="words" placeholder="Nome Cognome" required></label>' +
         '<p class="hint">Scrivi il tuo nome vero, quello all\'anagrafe. Se scrivi "Batman", il festeggiato non saprà quante sedie mettere.</p>';
     });
   }
@@ -117,7 +117,8 @@
     err.textContent = '';
     const nameInput = form.elements.nome;
     if (nameInput) {
-      if (!Festa.validName(nameInput.value)) { err.textContent = 'Scrivi nome e cognome veri, così so chi sei.'; return false; }
+      const nameErr = Festa.nameError(nameInput.value);
+      if (nameErr) { err.textContent = nameErr; return false; }
       payload.nome = nameInput.value.trim();
       try { localStorage.setItem('festa_nome', payload.nome); } catch (e) {}
     }

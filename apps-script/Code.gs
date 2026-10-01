@@ -15,6 +15,13 @@ const HEADERS = [
 // Valori della colonna "controllo" per le righe create dal sito
 const NON_IN_LISTA = '⚠️ non in lista, da verificare';
 const DAL_SITO = 'aggiunto dal sito';
+// Nomi famosi usati per fare gli spiritosi: non creano righe (stessa lista di js/common.js)
+const BLOCKED = [
+  'massimo bossetti', 'filippo turetta', 'toto riina', 'salvatore riina', 'bernardo provenzano',
+  'matteo messina denaro', 'pietro maso', 'olindo romano', 'rosa bazzi', 'annamaria franzoni',
+  'alberto stasi', 'renato vallanzasca', 'felice maniero', 'donato bilancia', 'luigi chiatti',
+  'mario rossi', 'pinco pallino', 'gerry scotti', 'chuck norris'
+];
 const COL = HEADERS.reduce((o, h, i) => (o[h] = i + 1, o), {});
 const MAX_SCORE = 100000;
 
@@ -183,6 +190,7 @@ function findOrCreate_(d) {
   const nome = clean_(d.nome);
   // un codice sconosciuto senza nome, o un nome di una parola sola, non crea righe
   if (nameKey_(nome).split(' ').filter(w => w.length >= 2).length < 2) return 0;
+  if (BLOCKED.map(nameKey_).includes(nameKey_(nome))) return 0;
   const sh = sheet_();
   // se hai scritto una lista di invitati (righe senza "controllo"), chi non c'è viene segnalato
   const last = sh.getLastRow();
