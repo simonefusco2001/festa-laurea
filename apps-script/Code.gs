@@ -131,7 +131,15 @@ function stats_() {
 
 // ---------- Utilità ----------
 function sheet_() {
-  return SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName(SHEET_NAME);
+  if (!sh) {
+    // se "Prepara il foglio" non è ancora stato usato, crea almeno il foglio con le intestazioni
+    sh = ss.insertSheet(SHEET_NAME);
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+  }
+  return sh;
 }
 
 // Trova l'ospite: prima col codice del link, poi col nome (per chi è arrivato senza link personale)
