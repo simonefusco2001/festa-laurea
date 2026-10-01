@@ -316,7 +316,9 @@ details p { padding: 0 18px 14px; margin: 0; }
 .proof { margin: 18px 0 24px; }
 .bar { height: 16px; border: var(--border); border-radius: 10px; background: var(--white); overflow: hidden; margin-top: 8px; }
 .bar i { display: block; height: 100%; background: var(--coral); width: 0; transition: width 1s; }
-.rsvp-actions { display: grid; gap: 12px; justify-items: center; }
+.rsvp-actions { display: grid; gap: 24px; justify-items: center; }
+.rsvp-actions .btn--big { padding: 22px 32px; font-size: 26px; }
+.rsvp-actions .btn--ghost { font-size: 15px; padding: 10px 22px; }
 .step { display: none; }
 .step.is-active { display: block; }
 .panel { background: var(--white); border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; text-align: left; }
