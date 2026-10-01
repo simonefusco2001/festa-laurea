@@ -1,44 +1,38 @@
-# Festa di laurea, invito online
+# 🎓 Festa di laurea — Simone Fusco
 
-Landing page per invitare alla festa di laurea, con RSVP, minigioco a premi e pagina regali.
-HTML, CSS e JavaScript puro, pubblicata gratis con GitHub Pages. Le risposte finiscono in un Google Sheet.
+## 🔗 [Apri l'invito: simonefusco2001.github.io/festa-laurea](https://simonefusco2001.github.io/festa-laurea/)
 
-## Struttura
+**Questo è il link da condividere con gli invitati.**
 
-| File | Cosa fa |
+[![Anteprima dell'invito](og-image.png)](https://simonefusco2001.github.io/festa-laurea/)
+
+Invito online alla mia festa di laurea, costruito come una landing page di marketing che ha un solo obiettivo di conversione: farti venire alla festa.
+
+## Cosa trovi nel sito
+
+| Sezione | Descrizione |
 |---|---|
-| `index.html` | Biglietto d'ingresso, minigioco, invito, RSVP |
-| `regali.html` | Lista regali e IBAN (mostrato solo a chi ha detto sì) |
-| `js/config.js` | **Tutti i dati dell'evento**: nome, data, location, URL dello script |
-| `js/game.js` | Minigioco "La corsa alla laurea" |
-| `apps-script/Code.gs` | Backend da incollare nel Google Sheet |
+| 🎟️ Biglietto d'ingresso | La prima schermata: un biglietto "Admit one" da strappare per aprire l'invito |
+| 🕹️ La corsa alla laurea | Minigioco: l'omino col cappello da laureato salta tesi, esami e professori. Il punteggio più alto vince un premio consegnato alla festa |
+| 📋 Info, location, programma | Data, orario, dress code, mappa e scaletta della serata |
+| ✅ Conferma la presenza | RSVP con +1 e allergie. Chi prova a dire di no dovrà superare qualche domanda di troppo |
+| 🎁 Lista regali, versione onesta | Classifica dei regali più e meno apprezzati, con IBAN visibile solo a chi ha confermato |
 
-## Configurare Google Sheet (una volta sola)
+## Come funziona
 
-1. Crea un nuovo Google Sheet, ad esempio "Festa di laurea".
-2. Apri **Estensioni → Apps Script**, cancella il codice presente e incolla tutto `apps-script/Code.gs`. Salva.
-3. In Apps Script apri **Impostazioni progetto (ingranaggio) → Proprietà script** e aggiungi:
-   - `IBAN` → il tuo IBAN
-   - `SITE_URL` → l'indirizzo del sito GitHub Pages
-4. Clicca **Esegui il deployment → Nuovo deployment → Tipo: App web**.
-   - Esegui come: **Me**
-   - Chi ha accesso: **Chiunque**
-   - Autorizza quando richiesto, poi copia l'**URL dell'app web**.
-5. Incolla l'URL in `js/config.js` alla voce `appsScriptUrl`.
-6. Ricarica il foglio: compare il menu **🎓 Festa**. Clicca **Prepara il foglio** (scrive le intestazioni in riga 1).
+| File | Descrizione |
+|---|---|
+| [`index.html`](index.html) | Biglietto, minigioco, invito e RSVP |
+| [`regali.html`](regali.html) | Pagina regali e IBAN |
+| [`css/style.css`](css/style.css) | Stile neobrutalism: giallo, corallo, nero e crema, bordi spessi e ombre nette |
+| [`js/config.js`](js/config.js) | Tutti i dati dell'evento in un unico file |
+| [`js/game.js`](js/game.js) | Il minigioco "La corsa alla laurea" |
+| [`apps-script/Code.gs`](apps-script/Code.gs) | Backend su Google Sheet: risposte, punteggi e IBAN protetto |
+| [`docs/SETUP.md`](docs/SETUP.md) | Istruzioni tecniche per configurare Google Sheet e aggiornare il sito |
 
-Manda a tutti lo stesso link del sito: chi risponde scrive nome e cognome e compare da solo come nuova riga.
-La colonna `punteggio` contiene il miglior punteggio del minigioco.
+HTML, CSS e JavaScript puro, senza framework, pubblicato gratis con GitHub Pages. Le risposte finiscono in un Google Sheet privato del festeggiato.
 
-**Opzionale, link personali:** per vedere anche chi non ha ancora risposto, scrivi i nomi nella colonna `nome`
-e usa **🎓 Festa → Genera i link degli invitati**; nella colonna `link` trovi il link da mandare a ciascuno.
+## Contatti
 
-> Se modifichi `Code.gs`, fai **Gestisci deployment → Modifica → Nuova versione**, altrimenti il sito continua a usare la versione vecchia.
-
-## Provarlo in locale
-
-```bash
-python -m http.server 5180
-```
-
-Poi apri http://localhost:5180. Con `appsScriptUrl` vuoto il sito funziona in **modalità demo**: le risposte restano solo nel browser.
+- Email: simone.fusco2001@gmail.com
+- Portfolio: [simonefusco2001.github.io/portfolio](https://simonefusco2001.github.io/portfolio/)
