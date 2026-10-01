@@ -346,9 +346,9 @@
             `<span class="who">${escapeHtml(r.nome)}${r.io ? ' (tu)' : ''}</span><b>${r.punteggio} CFU</b></li>`).join('')
         : '<li class="empty">Ancora nessun punteggio: il primo posto è libero!</li>';
     });
-    const rec = rows && rows[0] ? rows[0].punteggio : getBest();
+    // il record da battere è il primo della classifica (se la classifica non è disponibile resta quello di loadStats)
     const recEl = $('#sfida-record');
-    if (recEl) recEl.textContent = rec;
+    if (recEl && rows) recEl.textContent = rows[0] ? rows[0].punteggio : 0;
   }
 
   function escapeHtml(s) {

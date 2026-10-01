@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body class="locked">
 
@@ -234,8 +234,11 @@
         <span class="kicker" style="background:var(--white);color:var(--ink)">Ultimo step</span>
         <h2>Allora, ci sei?</h2>
         <div class="proof">
-          <b><span id="count-yes">23</span> persone</b> hanno già confermato.<br>Le altre ci stanno ancora pensando (male).
-          <div class="bar"><i id="bar-fill"></i></div>
+          <div id="proof-many" hidden>
+            <b><span id="count-yes">0</span> persone</b> hanno già confermato.<br>Le altre ci stanno ancora pensando (male).
+            <div class="bar"><i id="bar-fill"></i></div>
+          </div>
+          <p id="proof-few">Le conferme sono appena aperte: <b>i primi a rispondere</b> si guadagnano la stima eterna del festeggiato (e un posto vicino al buffet).</p>
         </div>
 
         <!-- Scelta iniziale -->
@@ -328,9 +331,9 @@
     <div class="wrap">Fatto con affetto (e un po' di marketing) per la laurea di <span data-f="nome">Simone</span>.</div>
   </footer>
 
-  <script src="js/config.js?v=6"></script>
-  <script src="js/common.js?v=6"></script>
-  <script src="js/game.js?v=6"></script>
-  <script src="js/main.js?v=6"></script>
+  <script src="js/config.js?v=8"></script>
+  <script src="js/common.js?v=8"></script>
+  <script src="js/game.js?v=8"></script>
+  <script src="js/main.js?v=8"></script>
 </body>
 </html>

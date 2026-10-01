@@ -77,21 +77,27 @@
   // ---- Contatore "persone che hanno confermato" ----
   async function loadStats() {
     let yes = F.confermatiDemo, totale = F.invitatiTotali, record = 0;
-    try { record = +localStorage.getItem('festa_best') || 0; } catch (e) {}
+    // in modalità demo il record è quello di questo telefono; online vale solo quello dello Sheet
+    if (!F.appsScriptUrl) { try { record = +localStorage.getItem('festa_best') || 0; } catch (e) {} }
     if (F.appsScriptUrl) {
       try {
         const r = await fetch(F.appsScriptUrl + '?action=stats');
         const j = await r.json();
         if (j && typeof j.yes === 'number') yes = j.yes;
         if (j && j.totale) totale = j.totale;
-        if (j && typeof j.record === 'number') record = Math.max(record, j.record);
+        if (j && typeof j.record === 'number') record = j.record;
       } catch (e) {}
     }
-    $('#count-yes').textContent = yes;
     $('#sfida-record').textContent = record;
-    requestAnimationFrame(() => {
-      $('#bar-fill').style.width = Math.min(100, Math.round(yes / totale * 100)) + '%';
-    });
+    // la prova sociale si mostra solo quando i numeri convincono: "0 persone" farebbe l'effetto opposto
+    if (yes >= 5) {
+      $('#proof-few').hidden = true;
+      $('#proof-many').hidden = false;
+      $('#count-yes').textContent = yes;
+      requestAnimationFrame(() => {
+        $('#bar-fill').style.width = Math.min(100, Math.round(yes / totale * 100)) + '%';
+      });
+    }
   }
   loadStats();
 

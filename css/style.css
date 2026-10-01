@@ -34,6 +34,7 @@ a { color: inherit; }
 
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
 section { padding: 72px 0; }
+@media (max-width: 600px) { section { padding: 52px 0; } }
 .kicker {
   display: inline-block; font-weight: 600; font-size: 13px; text-transform: uppercase;
   letter-spacing: .06em; background: var(--ink); color: var(--yellow);
@@ -181,7 +182,7 @@ section { padding: 72px 0; }
   background: var(--white); border: var(--border); border-radius: 999px; box-shadow: 4px 4px 0 var(--ink);
   max-width: calc(100vw - 24px);
 }
-.nav__logo { font-family: var(--font-head); font-weight: 800; padding: 4px 10px; text-decoration: none; }
+.nav__logo { font-family: var(--font-head); font-weight: 800; padding: 4px 10px; text-decoration: none; min-width: 40px; min-height: 40px; display: grid; place-items: center; }
 .nav__links { display: flex; gap: 2px; }
 .nav__link { text-decoration: none; font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 999px; }
 .nav__link:hover, .nav__link.is-active { background: var(--yellow); }
@@ -190,7 +191,7 @@ section { padding: 72px 0; }
   background: var(--coral); border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px;
   white-space: nowrap;
 }
-.nav__toggle { display: none; background: none; border: 0; font-size: 22px; cursor: pointer; padding: 2px 8px; }
+.nav__toggle { display: none; background: none; border: 0; font-size: 22px; cursor: pointer; padding: 2px 8px; min-width: 42px; min-height: 42px; }
 body.locked .nav { visibility: hidden; }
 @media (max-width: 720px) {
   .nav__toggle { display: block; }
@@ -256,7 +257,7 @@ body.locked .nav { visibility: hidden; }
 .sticker--a { transform: rotate(-12deg); }
 .sticker--b { transform: rotate(10deg); background: var(--coral); }
 @media (max-width: 720px) {
-  .hero { padding-top: 92px; }
+  .hero { padding-top: 104px; padding-bottom: 40px; }
   .stickers { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
   .sticker-wrap { position: static; }
   .sticker { width: 96px; height: 96px; }
@@ -269,7 +270,9 @@ body.locked .nav { visibility: hidden; }
 @media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 .grid .box .k { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; display: block; }
 .grid .box .v { font-family: var(--font-head); font-weight: 800; font-size: 26px; line-height: 1.05; }
-.dress { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }
+/* 1 colonna su telefono, 3 affiancate su schermi larghi: niente card orfane */
+.dress { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 18px; }
+@media (min-width: 600px) { .dress { grid-template-columns: repeat(3, 1fr); } }
 .dress div { border: var(--border); border-radius: 12px; padding: 12px; background: var(--white); font-size: 14px; }
 .halloween { margin-top: 16px; font-size: 15px; transform: rotate(-.6deg); }
 
@@ -328,7 +331,7 @@ input, select, textarea {
 }
 .hint { font-size: 13px; margin: 6px 0 0; color: #444; }
 .privacy {
-  font-size: 12px; line-height: 1.45; color: #444; margin: 14px 0 4px;
+  font-size: 12px; line-height: 1.45; color: #444; margin: 18px 0 26px;
   border: 2px dashed var(--ink); border-radius: 10px; padding: 10px 12px; background: var(--cream);
 }
 .err { color: #b00020; font-size: 14px; margin-top: 8px; min-height: 20px; }
@@ -345,7 +348,12 @@ footer { padding: 36px 0 90px; text-align: center; font-size: 14px; }
 .rank .bar i.low { background: var(--ink); }
 .rank .pct { font-size: 12px; font-weight: 600; text-align: right; }
 .iban { font-family: ui-monospace, Menlo, monospace; font-size: clamp(14px, 4vw, 20px); word-break: break-all; background: var(--cream); border: 2px dashed var(--ink); border-radius: 10px; padding: 12px; margin: 12px 0; }
-.notice { background: var(--coral); border-bottom: var(--border); text-align: center; padding: 10px 14px; font-weight: 600; position: relative; z-index: 400; }
+/* avviso sotto il menu fisso, in una card, così non finisce coperto */
+.notice {
+  background: var(--coral); border: var(--border); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink);
+  text-align: center; padding: 12px 16px; font-weight: 600; margin: 92px auto 0; max-width: min(520px, calc(100% - 32px));
+}
+.notice:not([hidden]) ~ main .gift-hero { padding-top: 40px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
