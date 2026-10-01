@@ -104,6 +104,16 @@
     });
   }
 
+  // Informativa privacy (ironica, ma vera nella sostanza)
+  $$('[data-privacy]').forEach(p => {
+    p.innerHTML = '🔒 <b>Informativa privacy ai sensi del GDPR</b> (Grande Desiderio di Partecipazione Richiesta): ' +
+      'i tuoi dati servono solo a capire quante persone vengono, quante sedie mettere e quanti spritz ordinare. ' +
+      'Non verranno ceduti a multinazionali, servizi segreti, call center che vendono luce e gas, ' +
+      'né a tua zia che chiede sempre "e la fidanzata?". ' +
+      'Finiranno in un Google Sheet del festeggiato, custoditi più gelosamente della ricetta della Nutella ' +
+      'e del voto della sua prima prova intermedia.';
+  });
+
   function show(id) {
     $$('.step').forEach(s => s.classList.toggle('is-active', s.id === 'step-' + id));
     $('#step-' + id).scrollIntoView({ behavior: 'smooth', block: 'center' });
