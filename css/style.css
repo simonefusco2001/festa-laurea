@@ -191,7 +191,7 @@ section { padding: 72px 0; }
   background: var(--coral); border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px;
   white-space: nowrap;
 }
-.nav__toggle { display: none; background: none; border: 0; font-size: 22px; cursor: pointer; padding: 2px 8px; min-width: 42px; min-height: 42px; }
+.nav__toggle { display: none; background: none; border: 0; color: var(--ink); font-size: 22px; cursor: pointer; padding: 2px 8px; min-width: 42px; min-height: 42px; }
 body.locked .nav { visibility: hidden; }
 @media (max-width: 720px) {
   .nav__toggle { display: block; }
@@ -205,7 +205,15 @@ body.locked .nav { visibility: hidden; }
 
 /* ---------- Hero ---------- */
 .hero { padding-top: 130px; text-align: center; position: relative; overflow: hidden; }
-.hero .kicker { margin-bottom: 26px; }
+/* il messaggio principale: si capisce subito che è un invito alla festa di laurea */
+.eyebrow {
+  display: inline-block; margin: 0 0 24px; padding: 8px 18px;
+  font-family: var(--font-head); font-weight: 800; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.25;
+  background: var(--coral); border: var(--border); border-radius: 999px; box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-1.5deg);
+}
+.eyebrow b { text-transform: uppercase; }
+.hero .urgency { margin: 22px 0 0; }
 .hero h1 { line-height: 1.1; margin-bottom: 22px; }
 .hero h1 > span[data-f] { background: var(--yellow); padding: 0 .12em; border: var(--border); border-radius: 10px; display: inline-block; transform: rotate(-2deg); }
 .hero h1 .again {
@@ -229,7 +237,7 @@ body.locked .nav { visibility: hidden; }
 
 /* Data e ora in evidenza */
 .when {
-  display: inline-block; margin-top: 8px; padding: 4px 12px; color: var(--ink);
+  display: inline-block; margin: 2px 0 14px; padding: 4px 12px; color: var(--ink);
   font-family: var(--font-head); font-weight: 800; font-size: clamp(17px, 5.2vw, 23px); white-space: nowrap;
   background: var(--yellow); border: var(--border); border-radius: 10px; box-shadow: 3px 3px 0 var(--ink);
   text-decoration: underline wavy var(--coral); text-decoration-thickness: 3px; text-underline-offset: 6px;
@@ -262,6 +270,25 @@ body.locked .nav { visibility: hidden; }
   .sticker-wrap { position: static; }
   .sticker { width: 96px; height: 96px; }
   .sticker-note { font-size: 13px; }
+  /* home su telefono: come su desktop, le foto stanno ai lati del messaggio e non sopra */
+  .hero .stickers { display: block; margin: 0; }
+  /* l'etichetta prende tutta la larghezza e le foto ci stanno "attaccate" sugli angoli */
+  .hero .sticker-wrap { position: absolute; top: 88px; z-index: 2; }
+  .hero .sticker-wrap--a { left: 10px; }
+  .hero .sticker-wrap--b { right: 10px; }
+  .hero .sticker-note, .hero .sticker-arrow { display: none; }
+  .hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
+  .hero .eyebrow { display: block; margin: 8px 4px 28px; padding: 10px 58px; font-size: 15px; border-radius: 18px; }
+  .hero .eyebrow b { display: block; font-size: clamp(17px, 5.6vw, 23px); line-height: 1.15; margin-top: 2px; }
+}
+/* iPhone SE: sticker più piccoli così il messaggio della hero resta su due righe */
+@media (max-width: 360px) {
+  .hero .sticker { width: 52px; height: 52px; }
+  .hero .sticker-wrap { top: 92px; }
+  .hero .sticker-wrap--a { left: 6px; }
+  .hero .sticker-wrap--b { right: 6px; }
+  .hero .eyebrow { padding: 10px 44px; font-size: 14px; }
+  .hero .eyebrow b { font-size: 17px; }
 }
 /* telefoni piccoli (iPhone SE): le etichette lunghe vanno su due righe invece di uscire dallo schermo */
 @media (max-width: 380px) {
