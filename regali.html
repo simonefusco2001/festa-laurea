@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lista regali, versione onesta</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="notice" id="notice" hidden>Prima conferma la presenza! <a href="index.html#rsvp">Torna all'invito</a></div>
+
+  <nav class="nav" aria-label="Principale">
+    <a class="nav__logo" href="index.html">🎓</a>
+    <div class="nav__links" id="nav-links">
+      <a class="nav__link" href="#top">Regali</a>
+      <a class="nav__link" href="#iban">Metodo digitale</a>
+    </div>
+    <a class="nav__cta" href="index.html">Torna all'invito</a>
+    <button class="nav__toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+  </nav>
+
+  <main>
+    <section class="gift-hero" id="top">
+      <div class="wrap">
+        <span class="kicker">Grazie per esserci</span>
+        <h1>Lista regali, <span style="background:var(--yellow);border:var(--border);border-radius:10px;padding:0 .12em;display:inline-block;transform:rotate(-2deg)">versione onesta.</span></h1>
+        <p style="font-size:19px;max-width:520px;margin:0 auto">Nessun obbligo. Ma se proprio insisti, ecco una guida basata su dati assolutamente inventati.</p>
+      </div>
+    </section>
+
+    <section style="padding-top:36px">
+      <div class="wrap">
+        <h2>I più apprezzati 👑</h2>
+        <div class="rank">
+          <div class="r"><span class="n">Bonifico o busta</span><div><div class="bar"><i style="width:97%"></i></div><div class="pct">97%</div></div></div>
+          <div class="r"><span class="n">Buono per un'esperienza</span><div><div class="bar"><i style="width:84%"></i></div><div class="pct">84%</div></div></div>
+          <div class="r"><span class="n">Alcolici di qualità</span><div><div class="bar"><i style="width:76%"></i></div><div class="pct">76%</div></div></div>
+          <div class="r"><span class="n">Gift card</span><div><div class="bar"><i style="width:68%"></i></div><div class="pct">68%</div></div></div>
+        </div>
+
+        <h2 style="margin-top:48px">I meno apprezzati 📉</h2>
+        <div class="rank">
+          <div class="r"><span class="n">Tazza "Dottore"</span><div><div class="bar"><i class="low" style="width:9%"></i></div><div class="pct">9%</div></div></div>
+          <div class="r"><span class="n">Cornice con foto</span><div><div class="bar"><i class="low" style="width:5%"></i></div><div class="pct">5%</div></div></div>
+          <div class="r"><span class="n">Penna incisa</span><div><div class="bar"><i class="low" style="width:4%"></i></div><div class="pct">4%</div></div></div>
+          <div class="r"><span class="n">Libro "Come trovare lavoro"</span><div><div class="bar"><i class="low" style="width:3%"></i></div><div class="pct">3%</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp" id="iban" style="margin-top:24px">
+      <div class="wrap rsvp-box">
+        <h2>Preferisci il metodo digitale?</h2>
+        <p>Niente contanti da portarsi dietro e niente imbarazzo alla consegna.</p>
+        <div id="iban-closed"><button class="btn btn--big" id="btn-iban" type="button">Rivela IBAN</button></div>
+        <div id="iban-open" class="panel panel--shout" hidden>
+          <b>Intestato a</b> <span data-f="nome">Simone</span>
+          <div class="iban" id="iban-text">…</div>
+          <button class="btn btn--yellow btn--small" id="btn-copy" type="button">Copia IBAN</button>
+          <p style="margin:12px 0 0;font-size:14px">Causale suggerita: <b>"Per il dottore"</b></p>
+        </div>
+        <div class="err" id="iban-err" role="alert"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Grazie di cuore. Ora vai a scegliere cosa mettere (qualcosa di decente).</div></footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/regali.js"></script>
+</body>
+</html>
