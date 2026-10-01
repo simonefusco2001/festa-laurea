@@ -3,17 +3,17 @@
 window.FESTA = {
   nome: 'Simone',
   corso: '[Corso di laurea]',
-  dataISO: '2026-12-12T20:00:00',
-  dataLabel: 'Sabato 12 dicembre',
-  ora: '20:00',
-  scadenzaRisposte: '15 novembre',
-  invitatiTotali: 32,
+  dataISO: '2026-10-31T19:00:00',
+  dataLabel: 'Sabato 31 ottobre',
+  ora: '19:00',
+  scadenzaRisposte: '23 ottobre',
+  invitatiTotali: 36,
   location: {
-    nome: '[Nome location]',
-    indirizzo: '[Via Roma 1, Milano]',
+    nome: 'Casale Valle Palomba',
+    indirizzo: 'Via Nettunense, 00042 Anzio (RM)',
     // testo cercato su Google Maps: indirizzo o nome del posto
-    mapQuery: 'Duomo di Milano',
-    comeArrivare: '[Metro, parcheggio, ecc.]'
+    mapQuery: 'Casale Valle Palomba, Via Nettunense, Anzio',
+    comeArrivare: 'In auto lungo la Via Nettunense: segui la mappa qui sotto. Organizzatevi con i passaggi, e rileggete la FAQ sul bere.'
   },
   // URL dell'Apps Script pubblicato (vedi il passo "Sheet + script").
   // Vuoto = modalità demo: le risposte restano solo nel tuo browser.

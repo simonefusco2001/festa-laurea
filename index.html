@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body class="locked">
 
@@ -97,12 +97,14 @@
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
-      <div class="sticker sticker--a">sticker foto 1</div>
-      <div class="sticker sticker--b">sticker foto 2</div>
+      <div class="sticker sticker--a"><img src="img/sticker-simone-bastone.png" alt="Simone con il bastone del viandante"></div>
+      <div class="sticker sticker--b"><img src="img/sticker-simone-corona.png" alt="Simone con la coroncina da principessa"></div>
       <div class="wrap">
-        <span class="kicker">Ultimi posti disponibili · offerta valida fino al <span data-f="scadenzaRisposte">15 novembre</span></span>
-        <h1><span data-f="nome">Simone</span> diventa Dottore.</h1>
-        <p class="lead">Tu puoi diventare "quello che c'era". Festa di laurea, <span data-f="dataLabel">sabato 12 dicembre</span>, ore <span data-f="ora">20:00</span>.</p>
+        <span class="kicker">Ultimi posti disponibili · offerta valida entro il <span data-f="scadenzaRisposte">23 ottobre</span></span>
+        <h1><span data-f="nome">Simone</span> diventa Dottore.
+          <span class="again">(di nuovo)<img class="meme-sticker" src="img/meme-di-nuovo.jpg" alt="Meme di DiCaprio che ride col bicchiere in mano"></span>
+        </h1>
+        <p class="lead">Tu puoi diventare "quello che c'era". Festa di laurea, <span data-f="dataLabel">sabato 31 ottobre</span>, ore <span data-f="ora">19:00</span>.</p>
         <a class="btn btn--big" href="#rsvp">Ci sono, ovviamente</a>
         <div class="countdown" aria-label="Conto alla rovescia">
           <div><b id="cd-d">--</b>giorni</div>
@@ -110,7 +112,10 @@
           <div><b id="cd-m">--</b>min</div>
           <div><b id="cd-s">--</b>sec</div>
         </div>
-        <p style="margin-top:14px;font-size:14px">Il festeggiato è già in ansia.</p>
+        <p class="ansia">Il festeggiato è già in ansia.</p>
+        <img class="meme-ansia" src="img/meme-ansia.jpg" alt="Meme dell'uomo che suda freddo">
+
+
       </div>
     </section>
 
@@ -120,17 +125,18 @@
         <span class="kicker">Scheda evento</span>
         <h2>Specifiche tecniche</h2>
         <div class="grid">
-          <div class="box"><span class="k">Quando</span><span class="v" data-f="dataLabel">Sabato 12 dicembre</span></div>
-          <div class="box box--yellow"><span class="k">A che ora</span><span class="v" data-f="ora">20:00</span></div>
-          <div class="box"><span class="k">Dove</span><span class="v" data-f="locNome">[Nome location]</span></div>
-          <div class="box box--coral"><span class="k">Cosa portare</span><span class="v">Te stesso. Il regalo è facoltativo, l'entusiasmo no.</span></div>
+          <div class="box"><span class="k">Quando</span><span class="v" data-f="dataLabel">Sabato 31 ottobre</span></div>
+          <div class="box box--yellow"><span class="k">A che ora</span><span class="v" data-f="ora">19:00</span></div>
+          <div class="box"><span class="k">Dove</span><span class="v" data-f="locNome">Casale Valle Palomba</span></div>
+          <div class="box box--coral"><span class="k">Cosa portare</span><span class="v">Te stesso e un regalo. Sì, il regalo è obbligatorio, non facoltativo.</span></div>
         </div>
         <h3 style="margin-top:36px">Dress code: elegante, ma che regga 4 spritz</h3>
         <div class="dress">
           <div>✅ <b>Sì</b><br>Camicia, vestito, scarpe comode.</div>
           <div>🤔 <b>Forse</b><br>Tacchi, ma solo se sai resistere.</div>
-          <div>❌ <b>Assolutamente no</b><br>Tuta. Ciabatte. Pigiama.</div>
+          <div>❌ <b>Assolutamente no</b><br>Tuta. Ciabatte. Pigiama. Birkenstock.</div>
         </div>
+        <div class="box box--yellow halloween">🎃 <b>Obbligatorio per tutti:</b> almeno un gadget di Halloween, anche piccolo. Corna, mantello, ragnetto finto, zucca in tasca: basta che ci sia. Chi arriva senza viene travestito da noi.</div>
       </div>
     </section>
 
@@ -144,12 +150,16 @@
         <div class="map">
           <iframe id="map" title="Posizione della festa sulla mappa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <a class="btn btn--yellow" id="map-link" href="#" target="_blank" rel="noopener">Apri in Google Maps</a>
-        <div class="loc-photos">
-          <div class="photo-slot">foto location 1</div>
-          <div class="photo-slot">foto location 2</div>
-          <div class="photo-slot">foto location 3</div>
+        <div class="loc-btns">
+          <a class="btn btn--yellow" id="map-link" href="#" target="_blank" rel="noopener">Apri in Google Maps</a>
+          <a class="btn btn--white" href="https://www.casalevallepalomba.it/" target="_blank" rel="noopener">Sito della location</a>
         </div>
+        <div class="loc-photos">
+          <figure class="photo"><img src="img/location-casale-sera.jpg" alt="Il Casale Valle Palomba illuminato di sera" loading="lazy"><figcaption>Il casale, di sera (come lo vedrai tu)</figcaption></figure>
+          <figure class="photo"><img src="img/location-sala.jpg" alt="La sala interna del casale apparecchiata" loading="lazy"><figcaption>La sala, dove si cena</figcaption></figure>
+          <figure class="photo"><img src="img/location-giardino.jpg" alt="Il giardino del casale" loading="lazy"><figcaption>Il giardino, per chi esce a prendere aria</figcaption></figure>
+        </div>
+        <p class="credits">Foto: <a href="https://www.casalevallepalomba.it/" target="_blank" rel="noopener">casalevallepalomba.it</a></p>
       </div>
     </section>
 
@@ -159,17 +169,20 @@
         <span class="kicker">La scaletta</span>
         <h2>Programma della serata</h2>
         <ul class="timeline">
-          <li><span class="t">20:00</span><span class="d"><b>Aperitivo.</b> Arriva in orario o perdi gli stuzzichini.</span></li>
-          <li><span class="t">21:00</span><span class="d"><b>Cena.</b> Si mangia, si ride, si parla male del relatore.</span></li>
-          <li><span class="t">22:30</span><span class="d"><b>Discorso del dottore.</b> Breve, promesso.</span></li>
-          <li><span class="t">23:00</span><span class="d"><b>Torta e brindisi.</b></span></li>
-          <li><span class="t">00:00</span><span class="d"><b>Si balla.</b> Fino a che il locale non ci caccia.</span></li>
+          <li><span class="t">19:00</span><span class="d"><b>Aperitivo.</b> Arriva in orario o perdi gli stuzzichini migliori.</span></li>
+          <li><span class="t">20:00<small>/20:30</small></span><span class="d"><b>Inizio della cena.</b> Si mangia, si ride, si parla male del relatore.</span></li>
+          <li><span class="t">22:00</span><span class="d"><b>Discorso del dottore.</b> Breve, promesso. (Non è vero.)</span></li>
+          <li><span class="t">22:30</span><span class="d"><b>Torta e brindisi.</b> Il festeggiato piange, tutti fanno finta di non vedere.</span></li>
+          <li><span class="t">23:00</span><span class="d"><b>Proclamazione del campione</b> della corsa alla laurea e consegna del premio.</span></li>
+          <li><span class="t">23:30</span><span class="d"><b>Si balla.</b> Fino a che il casale non ci caccia.</span></li>
+          <li><span class="t">??:??</span><span class="d"><b>Fine della festa.</b> Data da destinarsi, come la consegna della tesi.</span></li>
         </ul>
 
         <h3 style="margin-top:44px">Cosa dicono di noi</h3>
         <div class="reviews">
-          <div class="box"><div class="stars">★★★★★</div><p>"Non sapevo di aver bisogno di questa festa."</p><b>Zia Maria</b></div>
+          <div class="box"><div class="stars">★★★★★</div><p>"Io volevo restare a casa con il gatto. Il gatto ha detto di andare."</p><b>Zia Maria</b></div>
           <div class="box"><div class="stars">★★★★☆</div><p>"Meno una stella perché non ero io il festeggiato."</p><b>Un amico</b></div>
+          <div class="box"><div class="stars">★☆☆☆☆</div><p>"Ho dovuto leggere la tesi per intero. Due volte. Alla festa vengo solo per il buffet."</p><b>Il relatore</b></div>
         </div>
       </div>
     </section>
@@ -196,9 +209,10 @@
       <div class="wrap">
         <span class="kicker">Domande frequenti</span>
         <h2>Prima che tu lo chieda</h2>
-        <details><summary>Posso portare un +1?</summary><p>Sì, basta dirlo nel modulo qui sotto. Se è simpatico, meglio.</p></details>
-        <details><summary>Serve il regalo?</summary><p>No. Ma dopo la conferma troverai una pagina molto onesta sui regali.</p></details>
-        <details><summary>Ci sarà da mangiare?</summary><p>Sì, e anche da bere. Segnala allergie e intolleranze quando confermi.</p></details>
+        <details><summary>Serve il regalo?</summary><p>Sì, è obbligatorio. Ma dopo la conferma troverai una pagina molto onesta che ti aiuta a scegliere.</p></details>
+        <details><summary>Ci sarà da mangiare?</summary><p>Sì, e soprattutto da bere. L'obiettivo ufficiale della serata è ubriacarsi, quindi organizzati: chi guida non beve, chi beve non guida. Segnala allergie e intolleranze quando confermi.</p></details>
+        <details><summary>Posso chiedere al festeggiato "e adesso cosa farai?"</summary><p>No. È la domanda vietata della serata. Chi la fa paga un giro a tutto il tavolo.</p></details>
+        <details><summary>A che ora si torna a casa?</summary><p>Quando finisce lo spritz. Quindi, statisticamente, mai.</p></details>
         <details><summary>Il festeggiato piangerà?</summary><p>Probabile. Porta i fazzoletti, o almeno non filmare.</p></details>
       </div>
     </section>
@@ -303,9 +317,9 @@
     <div class="wrap">Fatto con affetto (e un po' di marketing) per la laurea di <span data-f="nome">Simone</span>.</div>
   </footer>
 
-  <script src="js/config.js?v=4"></script>
-  <script src="js/common.js?v=4"></script>
-  <script src="js/game.js?v=4"></script>
-  <script src="js/main.js?v=4"></script>
+  <script src="js/config.js?v=5"></script>
+  <script src="js/common.js?v=5"></script>
+  <script src="js/game.js?v=5"></script>
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>

@@ -204,27 +204,39 @@ body.locked .nav { visibility: hidden; }
 
 /* ---------- Hero ---------- */
 .hero { padding-top: 130px; text-align: center; position: relative; overflow: hidden; }
-.hero h1 span { background: var(--yellow); padding: 0 .12em; border: var(--border); border-radius: 10px; display: inline-block; transform: rotate(-2deg); }
-.hero p.lead { font-size: 19px; max-width: 520px; margin: 0 auto 24px; }
+.hero .kicker { margin-bottom: 26px; }
+.hero h1 { line-height: 1.1; margin-bottom: 22px; }
+.hero h1 > span[data-f] { background: var(--yellow); padding: 0 .12em; border: var(--border); border-radius: 10px; display: inline-block; transform: rotate(-2deg); }
+.hero h1 .again {
+  display: inline-flex; align-items: center; gap: 12px; vertical-align: middle;
+  font-size: .42em; margin-left: 6px; color: var(--ink);
+}
+.meme-sticker {
+  width: clamp(64px, 16vw, 104px); height: auto; border: 3px solid var(--ink); border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--ink); transform: rotate(7deg); background: var(--white);
+}
+.hero p.lead { font-size: 19px; max-width: 520px; margin: 0 auto 28px; }
 .hero .btn { max-width: 380px; }
 .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 420px; margin: 28px auto 0; }
 .countdown div { background: var(--yellow); border: var(--border); border-radius: 12px; padding: 8px 0; font-size: 13px; font-weight: 600; }
 .countdown b { display: block; font-family: var(--font-head); font-size: 34px; font-weight: 800; line-height: 1.1; }
-
-/* Sticker: segnaposto finché non ci sono le foto vere */
-.sticker {
-  position: absolute; width: 112px; height: 112px; border: var(--border); border-radius: 50%;
-  background: var(--white); box-shadow: 4px 4px 0 var(--ink); overflow: hidden;
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  font-size: 11px; font-weight: 600; padding: 8px; color: #555;
-  border-style: dashed;
+.ansia { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin: 26px 0 14px; }
+.meme-ansia {
+  width: min(320px, 82%); margin: 0 auto; border: var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); transform: rotate(-2deg);
 }
-.sticker img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Sticker con le foto scontornate */
+.sticker {
+  position: absolute; width: 124px; height: 124px; border: var(--border); border-radius: 50%;
+  background: var(--yellow); box-shadow: 4px 4px 0 var(--ink); overflow: hidden;
+}
+.sticker img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .sticker--a { top: 110px; left: 4%; transform: rotate(-12deg); }
 .sticker--b { top: 150px; right: 4%; transform: rotate(10deg); background: var(--coral); }
 @media (max-width: 720px) {
   .hero { padding-top: 96px; }
-  .sticker { position: static; display: inline-flex; width: 76px; height: 76px; font-size: 9px; margin: 0 10px 18px; }
+  .sticker { position: static; display: inline-block; width: 92px; height: 92px; margin: 0 10px 22px; }
 }
 
 /* ---------- Info ---------- */
@@ -233,20 +245,26 @@ body.locked .nav { visibility: hidden; }
 .grid .box .v { font-family: var(--font-head); font-weight: 800; font-size: 26px; line-height: 1.05; }
 .dress { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }
 .dress div { border: var(--border); border-radius: 12px; padding: 12px; background: var(--white); font-size: 14px; }
+.halloween { margin-top: 16px; font-size: 15px; transform: rotate(-.6deg); }
 
 /* ---------- Location ---------- */
 .map { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin: 22px 0 16px; background: var(--white); }
 .map iframe { display: block; width: 100%; height: 340px; border: 0; }
-.loc-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
-.photo-slot {
-  aspect-ratio: 4 / 3; border: 3px dashed var(--ink); border-radius: var(--radius); background: var(--white);
-  display: flex; align-items: center; justify-content: center; font-size: 13px; color: #555; text-align: center; padding: 10px;
-}
+.loc-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.loc-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; margin-top: 28px; }
+.photo { margin: 0; background: var(--white); border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.photo:nth-child(odd) { transform: rotate(-1deg); }
+.photo:nth-child(even) { transform: rotate(1deg); }
+/* le foto originali hanno una cornice bianca: lo zoom leggero la taglia */
+.photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transform: scale(1.06); }
+.photo figcaption { position: relative; padding: 8px 12px; font-size: 13px; font-weight: 600; border-top: var(--border); background: var(--white); }
+.credits { font-size: 12px; margin-top: 14px; color: #555; }
 
 /* ---------- Programma ---------- */
 .timeline { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; }
 .timeline li { display: flex; gap: 16px; align-items: center; }
 .timeline .t { flex: 0 0 82px; text-align: center; font-family: var(--font-head); font-weight: 800; font-size: 20px; background: var(--yellow); border: var(--border); border-radius: 10px; padding: 6px 0; }
+.timeline .t small { display: block; font-size: 13px; line-height: 1; }
 .timeline .d { flex: 1; background: var(--white); border: var(--border); border-radius: 10px; padding: 10px 14px; }
 
 /* ---------- Recensioni e FAQ ---------- */
