@@ -211,7 +211,9 @@ body.locked .nav { visibility: hidden; }
   font-family: var(--font-head); font-weight: 800; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.25;
 }
 .eyebrow b { text-transform: uppercase; }
-.hero .urgency { margin: 22px 0 0; }
+/* urgenza come testo, non come riquadro: il pulsante resta l'unico elemento "pieno" */
+.hero .urgency { margin: 16px auto 0; font-size: 15px; font-weight: 600; max-width: 340px; }
+.hero .urgency b { white-space: nowrap; }
 .hero h1 { line-height: 1.1; margin-bottom: 22px; }
 .hero h1 > span[data-f] { background: var(--yellow); padding: 0 .12em; border: var(--border); border-radius: 10px; display: inline-block; transform: rotate(-2deg); }
 .hero h1 .again {
