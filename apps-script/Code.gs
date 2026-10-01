@@ -85,6 +85,7 @@ function doPost(e) {
     if (data.action === 'rsvp') return json_(rsvp_(data));
     if (data.action === 'score') return json_(score_(data));
     if (data.action === 'iban') return json_(iban_(data));
+    if (data.action === 'classifica') return json_(classifica_(data));
     return json_({ ok: false, error: 'azione sconosciuta' });
   } finally {
     lock.releaseLock();
@@ -126,6 +127,28 @@ function iban_(d) {
     return { ok: false, error: 'prima conferma la presenza' };
   }
   return { ok: true, iban: PropertiesService.getScriptProperties().getProperty('IBAN') || '' };
+}
+
+// Classifica del minigioco: i 10 migliori, mostrati come "Marco R." per non esporre i cognomi
+function classifica_(d) {
+  const sh = sheet_();
+  const last = sh.getLastRow();
+  if (last < 2) return { ok: true, top: [] };
+  const me = findRow_(d);
+  const rows = sh.getRange(2, 1, last - 1, HEADERS.length).getValues()
+    .map((r, i) => ({ row: i + 2, nome: r[COL.nome - 1], p: Number(r[COL.punteggio - 1]) || 0, t: r[COL.data_punteggio - 1] }))
+    .filter(r => r.nome && r.p > 0)
+    .sort((a, b) => b.p - a.p || new Date(a.t) - new Date(b.t));   // a parità vince chi l'ha fatto prima
+  return {
+    ok: true,
+    top: rows.slice(0, 10).map(r => ({ nome: shortName_(r.nome), punteggio: r.p, io: r.row === me }))
+  };
+}
+
+function shortName_(nome) {
+  const w = String(nome).trim().split(/\s+/);
+  const first = w[0].charAt(0).toUpperCase() + w[0].slice(1).toLowerCase();
+  return w.length > 1 ? first + ' ' + w[w.length - 1].charAt(0).toUpperCase() + '.' : first;
 }
 
 function stats_() {

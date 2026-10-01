@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body class="locked">
 
@@ -30,8 +30,8 @@
   <div id="splash" role="button" tabindex="0" aria-label="Apri l'invito">
     <div class="ticket" aria-hidden="true">
       <div class="ticket__main">
-        <div class="ticket__label">Ammesso 1 · Ingresso gratuito</div>
-        <div class="ticket__title">Sei stato invitato alla laurea di <span data-f="nome">Simone</span></div>
+        <div class="ticket__label">Ingresso: 0 € · Uscita: a fine spritz</div>
+        <div class="ticket__title">Sei stato invitato alla laurea di <span data-f="nome">Simone</span> 🎓</div>
         <p class="ticket__sub">Biglietto non cedibile, non rimborsabile, non rifiutabile.</p>
       </div>
       <div class="ticket__stub"><span>ADMIT ONE</span></div>
@@ -41,24 +41,26 @@
 
   <!-- Minigioco: si apre dopo il biglietto e dalla sezione "La sfida" -->
   <div id="game" class="game" hidden role="dialog" aria-modal="true" aria-labelledby="game-title">
-    <button class="game__top-skip" id="g-close-top" type="button">Salta e vai all'invito ✕</button>
     <div class="game__inner">
+      <div class="game__topbar">
+        <button class="game__top-skip" id="g-close-top" type="button">Salta e vai all'invito ✕</button>
+      </div>
       <span class="kicker">Minigioco a premi</span>
-      <h2 id="game-title">La corsa alla laurea</h2>
+      <h2 id="game-title">🏆 La corsa alla laurea</h2>
       <div class="game__stage" id="game-stage">
         <canvas id="game-canvas"></canvas>
         <div class="game__hud"><span>CFU <b id="g-score">0</b></span><span>Record <b id="g-best">0</b></span></div>
 
         <div class="game__panel" id="g-start">
-          <p><b>Salta tesi, esami e professori</b> e arriva alla laurea.</p>
-          <p class="game__how">Tocca lo schermo o premi spazio per saltare.</p>
+          <p><b>Salta professori, sessioni e KPI</b> e arriva alla laurea.</p>
+          <p class="game__how">Tocca lo schermo o premi spazio per saltare. Più vai avanti, più si complica.</p>
           <button class="btn" id="g-play" type="button">Gioca</button>
         </div>
 
         <div class="game__panel" id="g-over" hidden>
           <h3 id="g-over-title">Bocciato!</h3>
           <p>Hai fatto <b id="g-final">0</b> CFU.</p>
-          <p class="game__how">🏆 Il punteggio più alto vince un premio alla festa!</p>
+          <p class="game__how" id="g-status" role="status">🏆 Il punteggio più alto vince un premio alla festa!</p>
           <div class="game__btns">
             <button class="btn btn--small" id="g-retry" type="button">Riprova</button>
             <button class="btn btn--white btn--small" id="g-exit" type="button">Apri l'invito</button>
@@ -66,12 +68,15 @@
         </div>
       </div>
       <form id="g-name-form" class="game__name box" hidden>
-        <label for="g-nome">Nuovo record! Come ti chiami? Serve per la classifica</label>
-        <input id="g-nome" name="nome" type="text" autocomplete="name" placeholder="Nome e cognome">
-        <button class="btn btn--yellow btn--small" type="submit">Salva in classifica</button>
+        <label for="g-nome">Entra in classifica: scrivi nome e cognome</label>
+        <input id="g-nome" name="nome" type="text" autocomplete="name" autocapitalize="words" placeholder="Nome Cognome">
+        <button class="btn btn--yellow btn--small" type="submit">Salva il mio punteggio</button>
       </form>
-      <p class="game__saved" id="g-saved" role="status"></p>
       <p class="game__prize">🏆 Chi farà il punteggio più alto vincerà un <b>premio</b>, consegnato alla festa con tanto di proclamazione ufficiale.</p>
+      <div class="board" data-board-box hidden>
+        <h3>Classifica del campionato</h3>
+        <ol data-board="10"></ol>
+      </div>
       <button class="game__skip" id="g-close" type="button">Salta il gioco e apri l'invito →</button>
     </div>
   </div>
@@ -174,9 +179,13 @@
       <div class="wrap">
         <div class="box box--yellow sfida">
           <span class="kicker">La sfida</span>
-          <h2>La corsa alla laurea</h2>
-          <p>Salta tesi, esami e professori. Chi fa più CFU vince un premio, consegnato alla festa con proclamazione ufficiale.</p>
+          <h2>🏆 La corsa alla laurea</h2>
+          <p>Salta professori, sessioni, CRM e strategie paid. Chi fa più CFU vince un premio, consegnato alla festa con proclamazione ufficiale.</p>
           <p><b>Record da battere: <span id="sfida-record">0</span> CFU</b></p>
+          <div class="board board--page" data-board-box hidden>
+            <h3>Top 5 del campionato</h3>
+            <ol data-board="5"></ol>
+          </div>
           <button class="btn" id="btn-gioca" type="button">Gioca ora</button>
         </div>
       </div>
@@ -294,9 +303,9 @@
     <div class="wrap">Fatto con affetto (e un po' di marketing) per la laurea di <span data-f="nome">Simone</span>.</div>
   </footer>
 
-  <script src="js/config.js?v=2"></script>
-  <script src="js/common.js?v=2"></script>
-  <script src="js/game.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/common.js?v=3"></script>
+  <script src="js/game.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>

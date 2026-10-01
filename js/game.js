@@ -1,31 +1,54 @@
-// Minigioco "La corsa alla laurea": l'omino col tocco salta gli ostacoli del percorso di studi.
+// Minigioco "La corsa alla laurea": l'omino col cappello da laureato salta gli ostacoli
+// dell'università e del marketing. Più CFU fai, più il percorso si complica.
 (function () {
   const $ = s => document.querySelector(s);
-  const INK = '#111111', CREAM = '#FFF6E0', YELLOW = '#FFD93D', CORAL = '#FF6B6B', WHITE = '#ffffff';
+  const INK = '#111111', CREAM = '#FFF6E0', YELLOW = '#FFD93D', CORAL = '#FF6B6B', WHITE = '#ffffff', GREEN = '#4E9F3D';
   const H = 260, GY = 222;          // altezza logica e linea del terreno
   const MAX_W = 640;                // larghezza logica massima: tutti vedono lo stesso spazio davanti
 
-  // Ostacoli: etichetta, dimensioni, colore e un piccolo disegno caratteristico
-  const TYPES = [
+  // Ostacoli a terra: università e marketing
+  const GROUND = [
     { t: 'TESI', w: 30, h: 40, c: WHITE, d: 'paper' },
     { t: 'ESAME', w: 44, h: 32, c: YELLOW },
     { t: 'PROF', w: 28, h: 56, c: CORAL, d: 'prof' },
     { t: 'RELATORE', w: 30, h: 60, c: YELLOW, d: 'prof' },
     { t: 'SESSIONE', w: 64, h: 26, c: CORAL },
-    { t: 'STATISTICA', w: 36, h: 46, c: WHITE, d: 'paper' },
-    { t: 'BUROCRAZIA', w: 40, h: 36, c: WHITE },
-    { t: 'FUORICORSO', w: 24, h: 50, c: CORAL }
+    { t: 'FUORICORSO', w: 24, h: 50, c: CORAL },
+    { t: 'SEGRETERIA', w: 40, h: 36, c: WHITE },
+    { t: 'CRM', w: 36, h: 34, c: WHITE },
+    { t: 'STRATEGIA PAID', w: 52, h: 30, c: YELLOW },
+    { t: 'KPI', w: 34, h: 44, c: WHITE, d: 'chart' },
+    { t: 'ROAS', w: 38, h: 40, c: YELLOW, d: 'chart' },
+    { t: 'FUNNEL', w: 40, h: 46, c: CORAL, d: 'funnel' },
+    { t: 'SEO', w: 30, h: 30, c: WHITE },
+    { t: 'BRIEF', w: 32, h: 38, c: WHITE, d: 'paper' },
+    { t: 'A/B TEST', w: 46, h: 28, c: CORAL },
+    { t: 'BUDGET 0€', w: 40, h: 34, c: YELLOW }
   ];
-  const MILESTONES = [[180, 'Laurea triennale!'], [300, 'Magistrale!'], [500, 'Dottorato?!'], [800, 'Rettore.']];
+  // Ostacoli in volo: si passa sotto restando a terra, saltandoci dentro si perde
+  const FLYING = ['DEADLINE', 'MAIL DEL PROF', 'CALL ALLE 9', 'REVISIONI', 'ALGORITMO META'];
+
+  // Livelli: da questi CFU in poi il percorso cambia
+  const LEVELS = [
+    { at: 120, txt: 'Arrivano le corone d\'alloro!' },
+    { at: 240, txt: 'Occhio alle DEADLINE: resta a terra!' },
+    { at: 380, txt: 'Le corone ora rimbalzano!' },
+    { at: 550, txt: 'Sessione straordinaria!' }
+  ];
+  const MILESTONES = [[180, 'Laurea triennale!'], [300, 'Magistrale!'], [480, 'Dottorato?!'], [800, 'Rettore.']];
 
   let canvas, ctx, W = 600, scale = 1, raf = 0, last = 0;
   let state = 'ready';              // ready | run | over
-  let p, obs, speed, score, nextGap, frame, banner, groundOff;
+  let p, obs, speed, score, nextGap, frame, banner, groundOff, level;
   let onCloseCb = null;
 
-  function getBest() { try { return +localStorage.getItem('festa_best') || 0; } catch (e) { return 0; } }
-  function setBest(v) { try { localStorage.setItem('festa_best', v); } catch (e) {} }
-  function getNome() { try { return localStorage.getItem('festa_nome') || ''; } catch (e) { return ''; } }
+  const store = {
+    get: (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  const getBest = () => +store.get('festa_best', 0);
+  const getSaved = () => +store.get('festa_best_saved', 0);
+  const getNome = () => store.get('festa_nome', '');
 
   function resize() {
     const box = canvas.parentElement.getBoundingClientRect();
@@ -45,7 +68,7 @@
 
   function reset() {
     p = { x: 64, y: GY, vy: 0, ground: true };
-    obs = []; speed = 6; score = 0; frame = 0; banner = null; groundOff = 0;
+    obs = []; speed = 6; score = 0; frame = 0; banner = null; groundOff = 0; level = 0;
     nextGap = 220;
   }
 
@@ -59,37 +82,61 @@
     state = 'run';
     $('#g-start').hidden = true;
     $('#g-over').hidden = true;
+    $('#g-name-form').hidden = true;
     last = performance.now();
     cancelAnimationFrame(raf);
     raf = requestAnimationFrame(loop);
   }
 
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+
+  // Sceglie il prossimo ostacolo in base al livello raggiunto
   function spawn(extra = 0) {
-    const type = TYPES[Math.floor(Math.random() * TYPES.length)];
-    obs.push(Object.assign({ x: W + 20 + extra }, type));
-    // ogni tanto un secondo ostacolo attaccato, quando si va già veloci
-    if (speed > 8 && Math.random() < 0.25) {
-      const t2 = TYPES[Math.floor(Math.random() * TYPES.length)];
-      obs.push(Object.assign({ x: W + 20 + type.w + 6 }, t2, { h: Math.min(t2.h, 36) }));
+    const x = W + 20 + extra;
+    const r = Math.random();
+    if (level >= 2 && r < 0.2) {
+      // davanti alla deadline serve spazio per atterrare dal salto precedente
+      const prev = obs[obs.length - 1];
+      const fx = prev ? Math.max(x, prev.x + prev.w + speed * 34) : x;
+      const t = pick(FLYING);
+      ctx.font = '800 10px Inter, system-ui, sans-serif';
+      obs.push({ kind: 'fly', t, x: fx, w: Math.max(70, ctx.measureText(t).width + 18), h: 22, bottom: GY - 76 });
+      nextGap = Math.max(speed * 34, 300 + Math.random() * 160);   // spazio libero sotto la deadline
+      return;
     }
-    nextGap = 230 + Math.random() * 260 + speed * 14;
+    if (level >= 1 && r < 0.42) {
+      const bounce = level >= 3 && Math.random() < 0.6;
+      obs.push({ kind: 'wreath', x, w: 32, h: 32, extra: bounce ? 1.5 : 2.6, bounce, phase: Math.random() * Math.PI, rot: 0 });
+    } else {
+      const type = pick(GROUND);
+      obs.push(Object.assign({ kind: 'box', x }, type));
+      // ostacoli doppi sempre più frequenti
+      const dbl = level >= 4 ? 0.45 : level >= 2 ? 0.3 : speed > 8 ? 0.2 : 0;
+      if (Math.random() < dbl) {
+        const t2 = pick(GROUND);
+        obs.push(Object.assign({ kind: 'box', x: x + type.w + 6 }, t2, { h: Math.min(t2.h, 36) }));
+      }
+    }
+    // gli spazi si accorciano col punteggio, ma restano sempre saltabili
+    const shrink = Math.min(150, score * 0.22);
+    nextGap = Math.max(speed * 30, 230 + Math.random() * 260 + speed * 14 - shrink);
   }
 
   function loop(now) {
     const dt = Math.min(3, (now - last) / 16.67);
     last = now;
     update(dt);
-    draw();
-    if (state === 'run') raf = requestAnimationFrame(loop);
+    if (state === 'run') { draw(); raf = requestAnimationFrame(loop); }
   }
 
   function update(dt) {
     frame += dt;
-    speed = Math.min(14, speed + 0.0028 * dt);
+    speed = Math.min(level >= 4 ? 15 : 13.5, speed + 0.0028 * dt);
     const prev = Math.floor(score);
     score += speed * dt * 0.045;
     const now = Math.floor(score);
     MILESTONES.forEach(([m, txt]) => { if (prev < m && now >= m) banner = { txt, until: frame + 90 }; });
+    LEVELS.forEach((l, i) => { if (prev < l.at && now >= l.at) { level = i + 1; banner = { txt: l.txt, until: frame + 110 }; } });
     $('#g-score').textContent = now;
 
     // fisica dell'omino
@@ -99,7 +146,13 @@
 
     groundOff = (groundOff + speed * dt) % 40;
 
-    obs.forEach(o => { o.x -= speed * dt; });
+    obs.forEach(o => {
+      o.x -= (speed + (o.extra || 0)) * dt;
+      if (o.kind === 'wreath') {
+        o.rot -= (speed + o.extra) * dt / 16;
+        o.lift = o.bounce ? Math.abs(Math.sin(frame * 0.09 + o.phase)) * 46 : 0;
+      }
+    });
     obs = obs.filter(o => o.x + o.w > -10);
     const lastOb = obs[obs.length - 1];
     if (!lastOb) spawn(frame < 30 ? 240 : 0);   // il primo ostacolo arriva con un po' di respiro
@@ -108,8 +161,11 @@
     // collisione con un po' di tolleranza, per non sembrare ingiusta
     const px1 = p.x - 8, px2 = p.x + 8, py1 = p.y - 54, py2 = p.y;
     for (const o of obs) {
-      const ox1 = o.x + 4, ox2 = o.x + o.w - 4, oy1 = GY - o.h + 4;
-      if (px2 > ox1 && px1 < ox2 && py2 > oy1 && py1 < GY) return gameOver();
+      let ox1 = o.x + 4, ox2 = o.x + o.w - 4, oy1, oy2;
+      if (o.kind === 'fly') { oy1 = o.bottom - o.h; oy2 = o.bottom - 4; }
+      else if (o.kind === 'wreath') { oy2 = GY - o.lift - 4; oy1 = oy2 - o.h + 8; }
+      else { oy1 = GY - o.h + 4; oy2 = GY; }
+      if (px2 > ox1 && px1 < ox2 && py2 > oy1 && py1 < oy2) return gameOver();
     }
   }
 
@@ -139,27 +195,70 @@
     ctx.beginPath(); ctx.moveTo(x, y - 57); ctx.lineTo(x + 11, y - 55); ctx.lineTo(x + 11 + (p.ground ? 0 : 2), y - 45); ctx.stroke();
   }
 
-  function drawObstacle(o) {
+  function drawLabel(text, cx, y) {
+    ctx.font = '700 10px Inter, system-ui, sans-serif';
+    const tw = ctx.measureText(text).width + 8;
+    ctx.fillStyle = INK; ctx.fillRect(cx - tw / 2, y - 7, tw, 14);
+    ctx.fillStyle = YELLOW; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, cx, y);
+  }
+
+  function drawBox(o) {
     const y = GY - o.h;
     ctx.fillStyle = INK; ctx.fillRect(o.x + 3, y + 3, o.w, o.h);   // ombra netta
     ctx.fillStyle = o.c; ctx.fillRect(o.x, y, o.w, o.h);
     ctx.strokeStyle = INK; ctx.lineWidth = 2.5; ctx.strokeRect(o.x, y, o.w, o.h);
     ctx.lineWidth = 2;
+    const cx = o.x + o.w / 2;
+    ctx.beginPath();
     if (o.d === 'paper') {
-      for (let i = 8; i < o.h - 4; i += 7) { ctx.beginPath(); ctx.moveTo(o.x + 5, y + i); ctx.lineTo(o.x + o.w - 5, y + i); ctx.stroke(); }
+      for (let i = 8; i < o.h - 4; i += 7) { ctx.moveTo(o.x + 5, y + i); ctx.lineTo(o.x + o.w - 5, y + i); }
     } else if (o.d === 'prof') {
-      const cx = o.x + o.w / 2;
-      ctx.beginPath(); ctx.arc(cx - 6, y + 12, 4, 0, Math.PI * 2); ctx.arc(cx + 6, y + 12, 4, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx - 2, y + 12); ctx.lineTo(cx + 2, y + 12); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx - 6, y + 24); ctx.lineTo(cx + 6, y + 24); ctx.stroke(); // bocca severa
+      ctx.arc(cx - 6, y + 12, 4, 0, Math.PI * 2); ctx.moveTo(cx + 10, y + 12); ctx.arc(cx + 6, y + 12, 4, 0, Math.PI * 2);
+      ctx.moveTo(cx - 2, y + 12); ctx.lineTo(cx + 2, y + 12);
+      ctx.moveTo(cx - 6, y + 24); ctx.lineTo(cx + 6, y + 24);  // bocca severa
+    } else if (o.d === 'chart') {
+      ctx.moveTo(o.x + 5, y + o.h - 8); ctx.lineTo(o.x + o.w * 0.4, y + o.h * 0.45);
+      ctx.lineTo(o.x + o.w * 0.6, y + o.h * 0.65); ctx.lineTo(o.x + o.w - 5, y + 8);  // grafico in calo... o in crescita
+    } else if (o.d === 'funnel') {
+      ctx.moveTo(o.x + 5, y + 8); ctx.lineTo(o.x + o.w - 5, y + 8); ctx.lineTo(cx + 3, y + o.h - 8);
+      ctx.lineTo(cx - 3, y + o.h - 8); ctx.closePath();
     }
-    // etichetta
-    ctx.font = '700 10px Inter, system-ui, sans-serif';
-    const tw = ctx.measureText(o.t).width + 8;
-    const lx = o.x + o.w / 2 - tw / 2;
-    ctx.fillStyle = INK; ctx.fillRect(lx, y - 18, tw, 14);
-    ctx.fillStyle = YELLOW; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(o.t, o.x + o.w / 2, y - 11);
+    ctx.stroke();
+    drawLabel(o.t, cx, y - 11);
+  }
+
+  function drawWreath(o) {
+    const cx = o.x + o.w / 2, cy = GY - o.lift - o.h / 2, r = o.h / 2 - 2;
+    ctx.save();
+    ctx.translate(cx, cy); ctx.rotate(o.rot);
+    ctx.strokeStyle = INK; ctx.lineWidth = 2;
+    for (let i = 0; i < 12; i++) {                      // foglie d'alloro intorno all'anello
+      const a = (i / 12) * Math.PI * 2;
+      ctx.save(); ctx.rotate(a); ctx.translate(r, 0); ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = GREEN;
+      ctx.beginPath(); ctx.ellipse(0, 0, 7, 3.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.restore();
+    }
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(0, 0, r - 2, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = CORAL; ctx.fillRect(-4, r - 4, 8, 8);   // fiocco
+    ctx.restore();
+    if (o.bounce) { ctx.fillStyle = 'rgba(17,17,17,.15)'; ctx.fillRect(o.x + 4, GY - 3, o.w - 8, 3); }  // ombra a terra
+  }
+
+  function drawFlying(o) {
+    const y = o.bottom - o.h;
+    ctx.fillStyle = INK; ctx.fillRect(o.x + 3, y + 3, o.w, o.h);
+    ctx.fillStyle = CORAL; ctx.fillRect(o.x, y, o.w, o.h);
+    ctx.strokeStyle = INK; ctx.lineWidth = 2.5; ctx.strokeRect(o.x, y, o.w, o.h);
+    // piccole ali per far capire che vola
+    const wing = Math.sin(frame * 0.4) * 4;
+    ctx.beginPath(); ctx.moveTo(o.x + 10, y); ctx.lineTo(o.x + 4, y - 8 - wing); ctx.lineTo(o.x + 22, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(o.x + o.w - 22, y); ctx.lineTo(o.x + o.w - 4, y - 8 - wing); ctx.lineTo(o.x + o.w - 10, y); ctx.stroke();
+    ctx.font = '800 10px Inter, system-ui, sans-serif';
+    ctx.fillStyle = INK; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(o.t, o.x + o.w / 2, y + o.h / 2 + 1);
   }
 
   function draw() {
@@ -172,66 +271,99 @@
     ctx.beginPath(); ctx.moveTo(-40, GY); ctx.lineTo(W + 40, GY); ctx.stroke();
     ctx.lineWidth = 2;
     for (let x = -groundOff; x < W + 40; x += 40) { ctx.beginPath(); ctx.moveTo(x, GY + 10); ctx.lineTo(x + 12, GY + 10); ctx.stroke(); }
-    if (obs) obs.forEach(drawObstacle);
+    if (obs) obs.forEach(o => o.kind === 'wreath' ? drawWreath(o) : o.kind === 'fly' ? drawFlying(o) : drawBox(o));
     if (p) drawPlayer();
     if (banner && frame < banner.until) {
-      ctx.font = '800 26px "Bricolage Grotesque", system-ui, sans-serif';
+      ctx.font = '800 22px "Bricolage Grotesque", system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const tw = ctx.measureText(banner.txt).width + 24;
-      ctx.fillStyle = INK; ctx.fillRect(W / 2 - tw / 2 + 4, 54, tw, 40);
-      ctx.fillStyle = YELLOW; ctx.fillRect(W / 2 - tw / 2, 50, tw, 40);
-      ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.strokeRect(W / 2 - tw / 2, 50, tw, 40);
-      ctx.fillStyle = INK; ctx.fillText(banner.txt, W / 2, 71);
+      const tw = Math.min(W - 20, ctx.measureText(banner.txt).width + 24);
+      ctx.fillStyle = INK; ctx.fillRect(W / 2 - tw / 2 + 4, 54, tw, 38);
+      ctx.fillStyle = YELLOW; ctx.fillRect(W / 2 - tw / 2, 50, tw, 38);
+      ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.strokeRect(W / 2 - tw / 2, 50, tw, 38);
+      ctx.fillStyle = INK; ctx.fillText(banner.txt, W / 2, 70, tw - 12);
     }
   }
 
-  async function gameOver() {
+  // ---- Fine partita e classifica ----
+  function gameOver() {
     state = 'over';
     cancelAnimationFrame(raf);
+    draw();
     const s = Math.floor(score);
     const prevBest = getBest();
-    const isRecord = s > prevBest;
-    if (isRecord) setBest(s);
+    const best = Math.max(s, prevBest);
+    if (s > prevBest) store.set('festa_best', s);
     $('#g-final').textContent = s;
-    $('#g-best').textContent = Math.max(s, prevBest);
-    $('#g-over-title').textContent = isRecord && prevBest > 0 ? 'Nuovo record personale!' : pickInsult();
-    $('#g-saved').textContent = '';
+    $('#g-best').textContent = best;
+    $('#g-over-title').textContent = s > prevBest && prevBest > 0 ? 'Nuovo record personale!' : pickInsult();
     $('#g-over').hidden = false;
     canvas.parentElement.classList.add('shake');
     setTimeout(() => canvas.parentElement.classList.remove('shake'), 400);
 
-    if (!isRecord) return;
-    // Senza link personale né nome già noto, chiediamo il nome per la classifica
-    if (!Festa.getToken() && !getNome()) {
+    if (best <= getSaved()) {
+      setStatus(`Il tuo record (${best} CFU) è già in classifica.`);
+    } else if (!Festa.getToken() && !getNome()) {
+      setStatus('↓ Scrivi il tuo nome qui sotto per entrare in classifica');
       $('#g-name-form').hidden = false;
-      return;
+    } else {
+      saveScore(best);
     }
-    saveScore(s);
   }
 
+  function setStatus(txt) { $('#g-status').textContent = txt; }
+
   async function saveScore(s, nome) {
-    const msg = $('#g-saved');
-    msg.textContent = 'Salvo il punteggio…';
+    setStatus('Salvo il punteggio in classifica…');
     try {
       const res = await Festa.api({ action: 'score', score: s, nome: nome || getNome() });
-      if (res.demo) { $('#g-name-form').hidden = true; msg.textContent = 'Modalità demo: punteggio salvato solo su questo telefono.'; return; }
       if (!res.ok) throw new Error(res.error);
-      msg.textContent = 'Punteggio salvato in classifica.';
+      store.set('festa_best_saved', s);
       $('#g-name-form').hidden = true;
+      setStatus(res.demo ? 'Modalità demo: punteggio salvato solo qui.' : `Record di ${s} CFU salvato in classifica!`);
+      loadBoard();
     } catch (e) {
-      msg.textContent = 'Non sono riuscito a salvarlo, riprova più tardi.';
+      setStatus(e.message === 'nome e cognome mancanti' ? 'Serve nome e cognome per la classifica.' : 'Non sono riuscito a salvarlo, riprova tra poco.');
+      if (!Festa.getToken()) $('#g-name-form').hidden = false;
     }
+  }
+
+  // Classifica generale: mostra solo nome e iniziale del cognome
+  async function loadBoard() {
+    let rows = null;
+    try {
+      const res = await Festa.api({ action: 'classifica' });
+      if (res.demo) rows = getBest() ? [{ nome: getNome() || 'Tu', punteggio: getBest(), io: true }] : [];
+      else if (res.ok && Array.isArray(res.top)) rows = res.top;
+    } catch (e) {}
+    document.querySelectorAll('[data-board]').forEach(el => {
+      const box = el.closest('[data-board-box]');
+      if (!rows) { if (box) box.hidden = true; return; }
+      if (box) box.hidden = false;
+      const limit = +el.dataset.board || 10;
+      el.innerHTML = rows.length
+        ? rows.slice(0, limit).map((r, i) =>
+            `<li class="${r.io ? 'me' : ''}"><span class="pos">${['🥇', '🥈', '🥉'][i] || (i + 1) + '°'}</span>` +
+            `<span class="who">${escapeHtml(r.nome)}${r.io ? ' (tu)' : ''}</span><b>${r.punteggio} CFU</b></li>`).join('')
+        : '<li class="empty">Ancora nessun punteggio: il primo posto è libero!</li>';
+    });
+    const rec = rows && rows[0] ? rows[0].punteggio : getBest();
+    const recEl = $('#sfida-record');
+    if (recEl) recEl.textContent = rec;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   function pickInsult() {
-    const l = ['Bocciato!', 'Rimandato a settembre.', 'Il relatore non approva.', 'Torna alla prossima sessione.', 'Fuoricorso!'];
-    return l[Math.floor(Math.random() * l.length)];
+    return pick(['Bocciato!', 'Rimandato a settembre.', 'Il relatore non approva.', 'Torna alla prossima sessione.', 'Fuoricorso!', 'ROAS negativo.', 'Campagna respinta.']);
   }
 
   function open(onClose) {
     onCloseCb = onClose || null;
     document.body.classList.add('locked');
     $('#game').hidden = false;
+    $('#game').scrollTop = 0;
     state = 'ready';
     reset();
     $('#g-start').hidden = false;
@@ -240,6 +372,7 @@
     $('#g-score').textContent = '0';
     $('#g-best').textContent = getBest();
     resize();
+    loadBoard();
     $('#g-play').focus();
   }
 
@@ -280,11 +413,11 @@
       e.preventDefault();
       const nome = e.target.nome.value.trim();
       const nameErr = Festa.nameError(nome);
-      if (nameErr) { $('#g-saved').textContent = nameErr; return; }
-      try { localStorage.setItem('festa_nome', nome); } catch (err) {}
+      if (nameErr) { setStatus(nameErr); return; }
+      store.set('festa_nome', nome);
       saveScore(getBest(), nome);
     });
+    loadBoard();
   }
 
-  window.Gioco = { init, open, close };
-})();
+  window.Gioco = { init, open, close, loadBoard };})();
