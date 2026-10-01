@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/style.css?v=11">
 </head>
 <body>
   <div class="notice" id="notice" hidden>Prima conferma la presenza! <a href="index.html#rsvp">Torna all'invito</a></div>
@@ -19,8 +19,9 @@
   <nav class="nav" aria-label="Principale">
     <a class="nav__logo" href="index.html">🎓</a>
     <div class="nav__links" id="nav-links">
-      <a class="nav__link" href="#top">Regali</a>
-      <a class="nav__link" href="#iban">Metodo digitale</a>
+      <a class="nav__link" href="#evitare">Da evitare</a>
+      <a class="nav__link" href="#idee">Idee</a>
+      <a class="nav__link" href="#iban">IBAN</a>
     </div>
     <a class="nav__cta" href="index.html">Torna all'invito</a>
     <button class="nav__toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">☰</button>
@@ -30,32 +31,50 @@
     <section class="gift-hero" id="top">
       <div class="wrap">
         <span class="kicker">Grazie per esserci</span>
-        <h1>Lista regali, <span style="background:var(--yellow);border:var(--border);border-radius:10px;padding:0 .12em;display:inline-block;transform:rotate(-2deg)">versione onesta.</span></h1>
-        <p style="font-size:19px;max-width:520px;margin:0 auto">Il regalo è obbligatorio (l'abbiamo detto nell'invito). Per aiutarti a scegliere, ecco una guida basata su dati assolutamente inventati.</p>
+        <h1>Lista regali, <span class="hl">versione onesta.</span></h1>
+        <p class="gift-lead">Sul regalo obbligatorio si scherza. <b>(Forse.)</b><br>Però, se ti venisse voglia di farmelo, non ti direi certo di no.</p>
       </div>
     </section>
 
-    <section style="padding-top:36px">
+    <section id="evitare" class="gift-sec">
       <div class="wrap">
-        <h2>I più apprezzati 👑</h2>
-        <div class="rank">
-          <div class="r"><span class="n">Bonifico o busta</span><div><div class="bar"><i style="width:97%"></i></div><div class="pct">97%</div></div></div>
-          <div class="r"><span class="n">Buono per un'esperienza</span><div><div class="bar"><i style="width:84%"></i></div><div class="pct">84%</div></div></div>
-          <div class="r"><span class="n">Alcolici di qualità</span><div><div class="bar"><i style="width:76%"></i></div><div class="pct">76%</div></div></div>
-          <div class="r"><span class="n">Gift card</span><div><div class="bar"><i style="width:68%"></i></div><div class="pct">68%</div></div></div>
+        <div class="gift-head">
+          <h2>Se proprio decidi di farmelo, almeno non questi 📉</h2>
+          <figure class="meme-card meme-card--right">
+            <img src="img/meme-harold.jpg" alt="Meme di Harold che sorride con dolore davanti al computer">
+            <figcaption>Io che scarto la tazza "Dottore"</figcaption>
+          </figure>
         </div>
-
-        <h2 style="margin-top:48px">I meno apprezzati 📉</h2>
         <div class="rank">
-          <div class="r"><span class="n">Tazza "Dottore"</span><div><div class="bar"><i class="low" style="width:9%"></i></div><div class="pct">9%</div></div></div>
-          <div class="r"><span class="n">Cornice con foto</span><div><div class="bar"><i class="low" style="width:5%"></i></div><div class="pct">5%</div></div></div>
-          <div class="r"><span class="n">Penna incisa</span><div><div class="bar"><i class="low" style="width:4%"></i></div><div class="pct">4%</div></div></div>
-          <div class="r"><span class="n">Libro "Come trovare lavoro"</span><div><div class="bar"><i class="low" style="width:3%"></i></div><div class="pct">3%</div></div></div>
+          <div class="r"><span class="n">Tazza "Dottore"</span><div><div class="bar"><i class="low" style="width:9%"></i></div><div class="pct">gradimento 9%</div></div></div>
+          <div class="r"><span class="n">Cornice con foto</span><div><div class="bar"><i class="low" style="width:5%"></i></div><div class="pct">gradimento 5%</div></div></div>
+          <div class="r"><span class="n">Penna incisa</span><div><div class="bar"><i class="low" style="width:4%"></i></div><div class="pct">gradimento 4%</div></div></div>
+          <div class="r"><span class="n">Libro "Come trovare lavoro"</span><div><div class="bar"><i class="low" style="width:3%"></i></div><div class="pct">gradimento 3%</div></div></div>
         </div>
       </div>
     </section>
 
-    <section class="rsvp" id="iban" style="margin-top:24px">
+    <section id="idee" class="gift-sec">
+      <div class="wrap">
+        <div class="gift-head">
+          <h2>Se proprio non sai cosa regalarmi, ti do qualche idea 💡</h2>
+          <figure class="meme-card meme-card--left">
+            <img src="img/meme-buzz-regali.jpg" alt="Meme di Buzz e Woody: idee regalo ovunque">
+            <figcaption>Idee regalo, idee regalo ovunque</figcaption>
+          </figure>
+        </div>
+        <div class="ideas">
+          <div class="idea"><span class="ico">🎟️</span><b>Un'esperienza</b><p>Cena, concerto, partita, weekend fuori. I ricordi non prendono polvere.</p></div>
+          <div class="idea"><span class="ico">🍾</span><b>Una bottiglia buona</b><p>Da aprire insieme, ovviamente. Non da regalare a qualcun altro.</p></div>
+          <div class="idea"><span class="ico">🎧</span><b>Qualcosa per il podcast</b><p>Cuffie, microfono, accessori: Fuori Tendenza ringrazia.</p></div>
+          <div class="idea"><span class="ico">📚</span><b>Un libro di marketing</b><p>Scelto bene. Non "Come trovare lavoro", vedi sopra.</p></div>
+          <div class="idea"><span class="ico">🎁</span><b>Una gift card</b><p>Zero rischi, zero scontrini da conservare.</p></div>
+          <div class="idea idea--top"><span class="ico">💸</span><b>Il grande classico: busta o bonifico</b><p>Non si sbaglia mai. <a href="#iban">L'IBAN è qui sotto ↓</a></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp" id="iban">
       <div class="wrap rsvp-box">
         <h2>Preferisci il metodo digitale?</h2>
         <p>Niente contanti da portarsi dietro e niente imbarazzo alla consegna.</p>
@@ -73,8 +92,8 @@
 
   <footer><div class="wrap">Grazie di cuore. Ora vai a scegliere cosa mettere (qualcosa di decente).</div></footer>
 
-  <script src="js/config.js?v=10"></script>
-  <script src="js/common.js?v=10"></script>
-  <script src="js/regali.js?v=10"></script>
+  <script src="js/config.js?v=11"></script>
+  <script src="js/common.js?v=11"></script>
+  <script src="js/regali.js?v=11"></script>
 </body>
 </html>
