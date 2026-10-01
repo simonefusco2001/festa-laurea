@@ -269,13 +269,19 @@ body.locked .nav { visibility: hidden; }
   .sticker { width: 96px; height: 96px; }
   .sticker-note { font-size: 13px; }
   /* home su telefono: come su desktop, le foto stanno ai lati del messaggio e non sopra */
-  .hero .stickers { display: block; margin: 0; }
-  /* l'etichetta prende tutta la larghezza e le foto ci stanno "attaccate" sugli angoli */
-  .hero .sticker-wrap { position: absolute; top: 88px; z-index: 2; }
-  .hero .sticker-wrap--a { left: 10px; }
-  .hero .sticker-wrap--b { right: 10px; }
-  .hero .sticker-note, .hero .sticker-arrow { display: none; }
-  .hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
+  /* home e pagina regali: le foto stanno piccole agli angoli, ai lati della prima riga, e non sopra il testo */
+  .hero .stickers, .gift-hero .stickers { display: block; margin: 0; }
+  .hero .sticker-wrap, .gift-hero .sticker-wrap { position: absolute; top: 88px; z-index: 2; }
+  .hero .sticker-wrap--a, .gift-hero .sticker-wrap--a { left: 10px; }
+  .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 10px; }
+  .hero .sticker-note, .hero .sticker-arrow, .gift-hero .sticker-note, .gift-hero .sticker-arrow { display: none; }
+  .hero .sticker, .gift-hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
+  .gift-hero .kicker { margin: 18px 0 30px; }
+  .notice:not([hidden]) ~ main .gift-hero .sticker-wrap { top: 22px; }
+  /* titolo dei regali con le stesse proporzioni del desktop: "versione onesta." su una riga */
+  .gift-hero h1 { font-size: clamp(30px, 10vw, 40px); }
+  .gift-hero .hl { white-space: nowrap; }
+  .gift-lead { font-size: 17px; }
   .hero .eyebrow { display: block; margin: 8px 0 22px; padding: 8px 76px; font-size: 16px; }
   /* stesse proporzioni del desktop: il titolo è l'elemento più largo, il resto più stretto e centrato */
   .hero .btn--big { width: auto; display: inline-block; padding: 15px 30px; font-size: 20px; }
@@ -284,10 +290,10 @@ body.locked .nav { visibility: hidden; }
 }
 /* iPhone SE: sticker più piccoli così il messaggio della hero resta su due righe */
 @media (max-width: 360px) {
-  .hero .sticker { width: 52px; height: 52px; }
-  .hero .sticker-wrap { top: 92px; }
-  .hero .sticker-wrap--a { left: 6px; }
-  .hero .sticker-wrap--b { right: 6px; }
+  .hero .sticker, .gift-hero .sticker { width: 52px; height: 52px; }
+  .hero .sticker-wrap, .gift-hero .sticker-wrap { top: 92px; }
+  .hero .sticker-wrap--a, .gift-hero .sticker-wrap--a { left: 6px; }
+  .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 6px; }
   .hero .eyebrow { padding: 6px 58px; font-size: 14px; }
 }
 /* telefoni piccoli (iPhone SE): le etichette lunghe vanno su due righe invece di uscire dallo schermo */
@@ -311,7 +317,10 @@ body.locked .nav { visibility: hidden; }
 /* ---------- Location ---------- */
 .map { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin: 22px 0 16px; background: var(--white); }
 .map iframe { display: block; width: 100%; height: 340px; border: 0; }
-.loc-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+/* i due pulsanti della location: centrati e affiancati, su telefono e su desktop */
+.loc-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.loc-btns .btn { font-size: 16px; padding: 12px 18px; }
+@media (max-width: 400px) { .loc-btns .btn { font-size: 14px; padding: 11px 13px; box-shadow: 4px 4px 0 var(--ink); } .loc-btns { gap: 10px; } }
 .loc-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; margin-top: 28px; }
 .photo { margin: 0; background: var(--white); border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .photo:nth-child(odd) { transform: rotate(-1deg); }
