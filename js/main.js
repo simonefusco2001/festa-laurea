@@ -100,7 +100,7 @@
   if (!Festa.getToken()) {
     $$('[data-name-field]').forEach(box => {
       box.innerHTML = '<label>Nome e cognome<input name="nome" type="text" autocomplete="name" autocapitalize="words" placeholder="Mario Rossi" required></label>' +
-        '<p class="hint">Scrivi il tuo nome vero, quello che usi su WhatsApp. Se scrivi "Batman", il festeggiato non saprà quante sedie mettere.</p>';
+        '<p class="hint">Scrivi il tuo nome vero, quello all\'anagrafe. Se scrivi "Batman", il festeggiato non saprà quante sedie mettere.</p>';
     });
   }
 
