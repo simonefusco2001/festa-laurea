@@ -138,12 +138,14 @@ section { padding: 72px 0; }
 .game__panel .btn { margin-top: 8px; }
 .game__how { font-size: 14px; }
 .game__btns { display: flex; gap: 10px; }
-.game__name { max-width: 420px; margin: 18px auto 16px;padding: 12px 14px; text-align: left; }
+.game__name { max-width: 420px; margin: 32px auto 0; padding: 16px 16px 18px; text-align: left; }
 .game__name[hidden] { display: none; }
 .game__name label { margin-top: 0; }
+.game__name input { margin-top: 8px; }
+.game__name .btn { margin-top: 18px; }
 .game__saved { font-size: 14px; min-height: 20px; margin: 10px 0 0; }
 .game__prize {
-  margin: 8px auto 10px; max-width: 520px; background: var(--white); border: var(--border);
+  margin: 32px auto 0; max-width: 520px; background: var(--white); border: var(--border);
   border-radius: 12px; padding: 10px 14px; font-size: 15px; transform: rotate(-1deg);
 }
 .game__top-skip {
@@ -153,7 +155,7 @@ section { padding: 72px 0; }
 
 /* Classifica del campionato */
 .board {
-  max-width: 460px; margin: 18px auto 6px; background: var(--white); border: var(--border);
+  max-width: 460px; margin: 32px auto 0; background: var(--white); border: var(--border);
   border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px; text-align: left;
 }
 .board[hidden] { display: none; }
@@ -168,8 +170,8 @@ section { padding: 72px 0; }
 .board li b { font-family: var(--font-head); font-weight: 800; }
 .board li.me { background: var(--yellow); border-radius: 8px; border-bottom-color: transparent; }
 .board li.empty { justify-content: center; color: #555; font-size: 14px; }
-.board--page { margin: 16px auto 18px; transform: rotate(1deg); }
-.game__skip { background: none; border: 0; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 8px; color: var(--ink); }
+.board--page { margin: 24px auto 28px; transform: rotate(1deg); }
+.game__skip { background: none; border: 0; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 8px; margin-top: 24px; color: var(--ink); }
 .sfida { text-align: center; transform: rotate(-1deg); }
 
 /* ---------- Menu a pillola ---------- */
