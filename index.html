@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body class="locked">
 
@@ -97,14 +97,24 @@
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
-      <div class="sticker sticker--a"><img src="img/sticker-simone-bastone.png" alt="Simone con il bastone del viandante"></div>
-      <div class="sticker sticker--b"><img src="img/sticker-simone-corona.png" alt="Simone con la coroncina da principessa"></div>
+      <div class="stickers">
+        <div class="sticker-wrap sticker-wrap--a">
+          <span class="sticker-note">il festeggiato</span>
+          <svg class="sticker-arrow" viewBox="0 0 60 50" aria-hidden="true"><path d="M8 6 C 14 30, 30 40, 50 42"/><path d="M40 34 L 51 42 L 39 48"/></svg>
+          <div class="sticker sticker--a"><img src="img/sticker-simone-bastone.png" alt="Simone con il bastone del viandante"></div>
+        </div>
+        <div class="sticker-wrap sticker-wrap--b">
+          <span class="sticker-note">sempre lui, giuro</span>
+          <svg class="sticker-arrow" viewBox="0 0 60 50" aria-hidden="true"><path d="M52 6 C 46 30, 30 40, 10 42"/><path d="M20 34 L 9 42 L 21 48"/></svg>
+          <div class="sticker sticker--b"><img src="img/sticker-simone-corona.png" alt="Simone con la coroncina da principessa"></div>
+        </div>
+      </div>
       <div class="wrap">
         <span class="kicker">Ultimi posti disponibili · offerta valida entro il <span data-f="scadenzaRisposte">23 ottobre</span></span>
         <h1><span data-f="nome">Simone</span> diventa Dottore.
           <span class="again">(di nuovo)<img class="meme-sticker" src="img/meme-di-nuovo.jpg" alt="Meme di DiCaprio che ride col bicchiere in mano"></span>
         </h1>
-        <p class="lead">Tu puoi diventare "quello che c'era". Festa di laurea, <span data-f="dataLabel">sabato 31 ottobre</span>, ore <span data-f="ora">19:00</span>.</p>
+        <p class="lead">Tu puoi diventare "quello che c'era". Festa di laurea:<br><mark class="when"><span data-f="dataLabel">Sabato 31 ottobre</span>, ore <span data-f="ora">19:00</span></mark></p>
         <a class="btn btn--big" href="#rsvp">Ci sono, ovviamente</a>
         <div class="countdown" aria-label="Conto alla rovescia">
           <div><b id="cd-d">--</b>giorni</div>
@@ -127,7 +137,7 @@
         <div class="grid">
           <div class="box"><span class="k">Quando</span><span class="v" data-f="dataLabel">Sabato 31 ottobre</span></div>
           <div class="box box--yellow"><span class="k">A che ora</span><span class="v" data-f="ora">19:00</span></div>
-          <div class="box"><span class="k">Dove</span><span class="v" data-f="locNome">Casale Valle Palomba</span></div>
+          <div class="box"><span class="k">Dove</span><span class="v"><span data-f="locNome">Casale Valle Palomba</span> (Anzio)</span></div>
           <div class="box box--coral"><span class="k">Cosa portare</span><span class="v">Te stesso e un regalo. Sì, il regalo è obbligatorio, non facoltativo.</span></div>
         </div>
         <h3 style="margin-top:36px">Dress code: elegante, ma che regga 4 spritz</h3>
@@ -171,6 +181,7 @@
         <ul class="timeline">
           <li><span class="t">19:00</span><span class="d"><b>Aperitivo.</b> Arriva in orario o perdi gli stuzzichini migliori.</span></li>
           <li><span class="t">20:00<small>/20:30</small></span><span class="d"><b>Inizio della cena.</b> Si mangia, si ride, si parla male del relatore.</span></li>
+          <li class="surprise"><span class="t">🤫</span><span class="d"><b>Sorpresa.</b> Non possiamo dirti quando né cosa. Possiamo dirti solo che si suderà. 💦</span></li>
           <li><span class="t">22:00</span><span class="d"><b>Discorso del dottore.</b> Breve, promesso. (Non è vero.)</span></li>
           <li><span class="t">22:30</span><span class="d"><b>Torta e brindisi.</b> Il festeggiato piange, tutti fanno finta di non vedere.</span></li>
           <li><span class="t">23:00</span><span class="d"><b>Proclamazione del campione</b> della corsa alla laurea e consegna del premio.</span></li>
@@ -317,9 +328,9 @@
     <div class="wrap">Fatto con affetto (e un po' di marketing) per la laurea di <span data-f="nome">Simone</span>.</div>
   </footer>
 
-  <script src="js/config.js?v=5"></script>
-  <script src="js/common.js?v=5"></script>
-  <script src="js/game.js?v=5"></script>
-  <script src="js/main.js?v=5"></script>
+  <script src="js/config.js?v=6"></script>
+  <script src="js/common.js?v=6"></script>
+  <script src="js/game.js?v=6"></script>
+  <script src="js/main.js?v=6"></script>
 </body>
 </html>

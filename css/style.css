@@ -226,21 +226,47 @@ body.locked .nav { visibility: hidden; }
   box-shadow: var(--shadow); transform: rotate(-2deg);
 }
 
-/* Sticker con le foto scontornate */
+/* Data e ora in evidenza */
+.when {
+  display: inline-block; margin-top: 8px; padding: 4px 12px; color: var(--ink);
+  font-family: var(--font-head); font-weight: 800; font-size: clamp(17px, 5.2vw, 23px); white-space: nowrap;
+  background: var(--yellow); border: var(--border); border-radius: 10px; box-shadow: 3px 3px 0 var(--ink);
+  text-decoration: underline wavy var(--coral); text-decoration-thickness: 3px; text-underline-offset: 6px;
+  transform: rotate(-1deg);
+}
+
+/* Sticker con le foto scontornate, con nota e freccia disegnata */
+.sticker-wrap { position: absolute; display: flex; flex-direction: column; align-items: center; }
+.sticker-wrap--a { top: 86px; left: 4%; }
+.sticker-wrap--b { top: 116px; right: 4%; }
+.sticker-note {
+  font-family: var(--font-head); font-weight: 800; font-size: 14px; white-space: nowrap;
+  background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 2px 10px;
+}
+.sticker-wrap--a .sticker-note { transform: rotate(-6deg); }
+.sticker-wrap--b .sticker-note { transform: rotate(5deg); }
+.sticker-arrow { width: 48px; height: 40px; margin: 2px 0 -4px; fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.sticker-wrap--a .sticker-arrow { margin-left: -34px; }
+.sticker-wrap--b .sticker-arrow { margin-left: 34px; }
 .sticker {
-  position: absolute; width: 124px; height: 124px; border: var(--border); border-radius: 50%;
+  width: 124px; height: 124px; border: var(--border); border-radius: 50%;
   background: var(--yellow); box-shadow: 4px 4px 0 var(--ink); overflow: hidden;
 }
 .sticker img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.sticker--a { top: 110px; left: 4%; transform: rotate(-12deg); }
-.sticker--b { top: 150px; right: 4%; transform: rotate(10deg); background: var(--coral); }
+.sticker--a { transform: rotate(-12deg); }
+.sticker--b { transform: rotate(10deg); background: var(--coral); }
 @media (max-width: 720px) {
-  .hero { padding-top: 96px; }
-  .sticker { position: static; display: inline-block; width: 92px; height: 92px; margin: 0 10px 22px; }
+  .hero { padding-top: 92px; }
+  .stickers { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
+  .sticker-wrap { position: static; }
+  .sticker { width: 96px; height: 96px; }
+  .sticker-note { font-size: 13px; }
 }
 
 /* ---------- Info ---------- */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 24px; }
+/* 2 colonne fisse: le 4 card formano un 2x2 senza card orfane spostate a sinistra */
+.grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 24px; }
+@media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 .grid .box .k { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; display: block; }
 .grid .box .v { font-family: var(--font-head); font-weight: 800; font-size: 26px; line-height: 1.05; }
 .dress { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }
@@ -264,6 +290,8 @@ body.locked .nav { visibility: hidden; }
 .timeline { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; }
 .timeline li { display: flex; gap: 16px; align-items: center; }
 .timeline .t { flex: 0 0 82px; text-align: center; font-family: var(--font-head); font-weight: 800; font-size: 20px; background: var(--yellow); border: var(--border); border-radius: 10px; padding: 6px 0; }
+.timeline .surprise .t { background: var(--coral); font-size: 24px; }
+.timeline .surprise .d { background: var(--yellow); transform: rotate(-1deg); }
 .timeline .t small { display: block; font-size: 13px; line-height: 1; }
 .timeline .d { flex: 1; background: var(--white); border: var(--border); border-radius: 10px; padding: 10px 14px; }
 
