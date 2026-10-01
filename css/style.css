@@ -342,7 +342,8 @@ input, select, textarea {
 footer { padding: 36px 0 90px; text-align: center; font-size: 14px; }
 
 /* ---------- Regali ---------- */
-.gift-hero { padding-top: 130px; text-align: center; }
+.gift-hero { padding-top: 130px; text-align: center; position: relative; overflow: hidden; }
+@media (max-width: 720px) { .gift-hero { padding-top: 104px; } }
 .gift-hero .kicker { margin-bottom: 26px; }
 .gift-hero h1 { line-height: 1.12; margin-bottom: 28px; }
 .gift-hero .hl { background: var(--yellow); border: var(--border); border-radius: 10px; padding: 0 .12em; display: inline-block; transform: rotate(-2deg); margin-top: 8px; }
@@ -350,19 +351,6 @@ footer { padding: 36px 0 90px; text-align: center; font-size: 14px; }
 .gift-sec { padding-top: 36px; }
 .gift-head { display: flex; align-items: center; gap: 24px; margin-bottom: 26px; }
 .gift-head h2 { flex: 1; margin: 0; }
-.meme-card {
-  flex: 0 0 210px; margin: 0; background: var(--white); border: var(--border); border-radius: var(--radius);
-  box-shadow: var(--shadow); overflow: hidden;
-}
-.meme-card img { width: 100%; }
-.meme-card figcaption { font-size: 13px; font-weight: 600; padding: 7px 10px; border-top: var(--border); text-align: center; }
-.meme-card--right { transform: rotate(3deg); }
-.meme-card--left { transform: rotate(-3deg); order: -1; }
-@media (max-width: 600px) {
-  .gift-head { flex-direction: column; align-items: stretch; gap: 22px; }
-  .meme-card { flex: none; width: min(280px, 80%); align-self: center; order: 0; }
-  .meme-card--left { order: 0; }
-}
 .ideas { display: grid; grid-template-columns: 1fr; gap: 18px; }
 @media (min-width: 600px) { .ideas { grid-template-columns: repeat(2, 1fr); } }
 .idea { background: var(--white); border: var(--border); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink); padding: 16px 18px; }
