@@ -274,6 +274,7 @@
     $('#g-play').addEventListener('click', start);
     $('#g-retry').addEventListener('click', start);
     $('#g-close').addEventListener('click', close);
+    $('#g-close-top').addEventListener('click', close);
     $('#g-exit').addEventListener('click', close);
     $('#g-name-form').addEventListener('submit', e => {
       e.preventDefault();
