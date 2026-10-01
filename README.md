@@ -15,7 +15,7 @@ Invito online alla mia festa di laurea, costruito come una landing page di marke
 | 🎟️ Biglietto d'ingresso | La prima schermata: un biglietto "Admit one" da strappare per aprire l'invito |
 | 🕹️ La corsa alla laurea | Minigioco: l'omino col cappello da laureato salta tesi, esami e professori. Il punteggio più alto vince un premio consegnato alla festa |
 | 📋 Info, location, programma | Data, orario, dress code, mappa e scaletta della serata |
-| ✅ Conferma la presenza | RSVP con +1 e allergie. Chi prova a dire di no dovrà superare qualche domanda di troppo |
+| ✅ Conferma la presenza | RSVP con nome e allergie. Chi prova a dire di no dovrà superare qualche domanda di troppo |
 | 🎁 Lista regali, versione onesta | Classifica dei regali più e meno apprezzati, con IBAN visibile solo a chi ha confermato |
 
 ## Come funziona

@@ -158,7 +158,7 @@
     e.preventDefault();
     const f = e.target;
     const ok = await submit(f, {
-      action: 'rsvp', risposta: 'yes', plus: f.plus.value, allergie: f.allergie.value.trim()
+      action: 'rsvp', risposta: 'yes', allergie: f.allergie.value.trim()
     }, 'yes-done');
     if (ok) {
       Festa.confetti();
