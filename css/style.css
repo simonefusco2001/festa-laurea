@@ -281,7 +281,9 @@ body.locked .nav { visibility: hidden; }
   /* titolo dei regali con le stesse proporzioni del desktop: "versione onesta." su una riga */
   .gift-hero h1 { font-size: clamp(30px, 10vw, 40px); }
   .gift-hero .hl { white-space: nowrap; }
-  .gift-lead { font-size: 17px; }
+  /* sottotitolo: più piccolo e compatto, non deve competere con il titolo */
+  main .gift-hero .gift-lead { font-size: 15px; line-height: 1.5; max-width: 330px; color: #333; }
+  main .gift-hero h1 { margin-bottom: 18px; }
   /* i titoli delle sezioni (h2) devono restare sotto il titolo della pagina (h1) */
   .gift-sec h2, #iban h2 { font-size: clamp(21px, 6vw, 26px); line-height: 1.15; }
   .hero .eyebrow { display: block; margin: 8px 0 22px; padding: 8px 76px; font-size: 16px; }
