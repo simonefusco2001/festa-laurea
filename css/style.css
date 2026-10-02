@@ -392,6 +392,21 @@ input, select, textarea {
   width: 100%; font: inherit; padding: 10px 12px; margin-top: 4px;
   border: 2px solid var(--ink); border-radius: 10px; background: var(--cream);
 }
+/* etichetta con bottone info (menù di pesce) */
+.label-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+.label-row label { margin-top: 0; }
+.label-row .muted { font-weight: 400; color: #555; }
+.info-btn {
+  flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--ink); background: var(--yellow);
+  font-family: var(--font-head); font-weight: 800; font-size: 15px; line-height: 1; cursor: pointer; color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.info-btn[aria-expanded="true"] { background: var(--ink); color: var(--yellow); }
+.info-pop {
+  margin: 8px 0 2px; padding: 10px 12px; font-size: 13px; line-height: 1.45; background: var(--cream);
+  border: 2px solid var(--ink); border-radius: 10px; animation: pop .2s ease-out;
+}
+.info-pop[hidden] { display: none; }
 .hint { font-size: 13px; margin: 6px 0 0; color: #444; }
 .privacy {
   font-size: 12px; line-height: 1.45; color: #444; margin: 18px 0 26px;

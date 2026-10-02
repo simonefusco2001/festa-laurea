@@ -13,7 +13,7 @@
   <meta property="og:title" content="🎓 Sei stato invitato alla laurea di Simone">
   <meta property="og:description" content="Sabato 31 ottobre, ore 19:00, Casale Valle Palomba (Anzio). Apri il biglietto, conferma entro il 23 ottobre e sfida gli altri alla corsa alla laurea: chi fa più punti vince un premio.">
   <meta property="og:image:alt" content="Biglietto giallo: sei stato invitato alla laurea di Simone, sabato 31 ottobre ore 19:00 ad Anzio">
-  <meta property="og:image" content="https://simonefusco2001.github.io/festa-laurea/og-image.png?v=36">
+  <meta property="og:image" content="https://simonefusco2001.github.io/festa-laurea/og-image.png?v=37">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="it_IT">
@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=36">
+  <link rel="stylesheet" href="css/style.css?v=37">
 </head>
 <body class="locked">
 
@@ -227,7 +227,7 @@
         <span class="kicker">Domande frequenti</span>
         <h2>Prima che tu lo chieda</h2>
         <details><summary>Serve il regalo?</summary><p>Sì, è obbligatorio. Ma dopo la conferma troverai una pagina molto onesta che ti aiuta a scegliere.</p></details>
-        <details><summary>Ci sarà da mangiare?</summary><p>Sì, e soprattutto da bere. L'obiettivo ufficiale della serata è ubriacarsi, quindi organizzati: chi guida non beve, chi beve non guida. Segnala allergie e intolleranze quando confermi.</p></details>
+        <details><summary>Ci sarà da mangiare?</summary><p>Sì: menù tutto di pesce, da chef stellati. E soprattutto da bere. L'obiettivo ufficiale della serata è ubriacarsi, quindi organizzati: chi guida non beve, chi beve non guida. Segnala allergie e intolleranze quando confermi.</p></details>
         <details><summary>Posso chiedere al festeggiato "e adesso cosa farai?"</summary><p>No. È la domanda vietata della serata. Chi la fa paga un giro a tutto il tavolo.</p></details>
         <details><summary>A che ora si torna a casa?</summary><p>Quando finisce lo spritz. Quindi, statisticamente, mai.</p></details>
         <details><summary>Il festeggiato piangerà?</summary><p>Probabile. Porta i fazzoletti, o almeno non filmare.</p></details>
@@ -309,8 +309,15 @@
             <h3>Benvenuto a bordo.</h3>
             <p>Ancora due cose e sei dentro.</p>
             <div data-name-field></div>
-            <label for="yes-allergie">Allergie o intolleranze (facoltativo)</label>
-            <input id="yes-allergie" name="allergie" type="text" placeholder="Nessuna, mangio tutto">
+            <div class="label-row">
+              <label for="yes-allergie">Allergie o intolleranze <span class="muted">(si mangerà pesce 🐟)</span></label>
+              <button class="info-btn" type="button" aria-expanded="false" aria-controls="menu-info" aria-label="Info sul menù">i</button>
+            </div>
+            <div class="info-pop" id="menu-info" hidden>
+              <b>🐟 Il menù sarà tutto di pesce.</b> Ancora in fase di definizione, ma da chef stellati: le aspettative sono già altissime.<br>
+              Se il pesce per te è un problema, scrivilo qui sotto: preferiamo cambiarti il piatto che accompagnarti al pronto soccorso.
+            </div>
+            <input id="yes-allergie" name="allergie" type="text" placeholder="Nessuna, mangio anche il polpo">
             <div class="err" role="alert"></div>
             <p class="privacy" data-privacy></p>
             <button class="btn btn--big" type="submit">Conferma e vai ai regali</button>
@@ -331,9 +338,9 @@
     <div class="wrap">Fatto con affetto (e un po' di marketing) per la laurea di <span data-f="nome">Simone</span>.</div>
   </footer>
 
-  <script src="js/config.js?v=36"></script>
-  <script src="js/common.js?v=36"></script>
-  <script src="js/game.js?v=36"></script>
-  <script src="js/main.js?v=36"></script>
+  <script src="js/config.js?v=37"></script>
+  <script src="js/common.js?v=37"></script>
+  <script src="js/game.js?v=37"></script>
+  <script src="js/main.js?v=37"></script>
 </body>
 </html>

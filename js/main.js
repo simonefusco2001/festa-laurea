@@ -120,6 +120,14 @@
       'e del voto della sua prima prova intermedia.';
   });
 
+  // Info sul menù di pesce: il pulsante "i" apre e chiude il riquadro
+  $$('.info-btn').forEach(btn => btn.addEventListener('click', () => {
+    const pop = document.getElementById(btn.getAttribute('aria-controls'));
+    const open = pop.hidden;
+    pop.hidden = !open;
+    btn.setAttribute('aria-expanded', open);
+  }));
+
   function show(id) {
     $$('.step').forEach(s => s.classList.toggle('is-active', s.id === 'step-' + id));
     $('#step-' + id).scrollIntoView({ behavior: 'smooth', block: 'center' });
