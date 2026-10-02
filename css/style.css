@@ -409,7 +409,8 @@ footer { padding: 36px 0 90px; text-align: center; font-size: 14px; }
 .gift-hero h1 { line-height: 1.12; margin-bottom: 28px; }
 .gift-hero .hl { background: var(--yellow); border: var(--border); border-radius: 10px; padding: 0 .12em; display: inline-block; transform: rotate(-2deg); margin-top: 8px; }
 .gift-lead { font-size: 19px; max-width: 540px; margin: 0 auto; line-height: 1.6; }
-.gift-sec { padding-top: 36px; }
+.gift-sec { padding-top: 36px; padding-bottom: 12px; }
+#idee.gift-sec { padding-bottom: 48px; }
 .gift-hero { padding-bottom: 28px; }
 .gift-head { display: flex; align-items: center; gap: 24px; margin-bottom: 26px; }
 .gift-head h2 { flex: 1; margin: 0; }
