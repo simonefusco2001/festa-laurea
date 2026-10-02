@@ -361,10 +361,8 @@ body.locked .nav { visibility: hidden; }
 .box--ink { background: var(--ink); color: var(--cream); }
 .box--ink .k { color: var(--yellow); }
 .box--ink .v { color: var(--white); }
-.v--sub { display: block; margin-top: 6px; font-size: 14px; line-height: 1.4; color: var(--cream); }
 .halloween { margin: 14px 0 16px; font-size: 15px; line-height: 1.5; transform: rotate(-.6deg); }
 .halloween__title { display: block; font-family: var(--font-head); font-weight: 800; font-size: 19px; line-height: 1.2; color: var(--yellow); margin-bottom: 6px; }
-.hero .theme { display: inline-block; font-weight: 600; font-size: 15px; margin: 0 0 6px; }
 
 /* ---------- Location ---------- */
 .map { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin: 22px 0 28px; background: var(--white); }
