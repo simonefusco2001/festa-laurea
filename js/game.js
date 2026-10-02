@@ -30,16 +30,18 @@
 
   // Livelli: da questi CFU in poi il percorso cambia
   const LEVELS = [
-    { at: 120, txt: 'Arrivano le corone d\'alloro!' },
-    { at: 240, txt: 'Occhio alle DEADLINE: resta a terra!' },
-    { at: 380, txt: 'Le corone ora rimbalzano!' },
-    { at: 550, txt: 'Sessione straordinaria!' }
+    { at: 150, txt: 'Arrivano le corone d\'alloro: saltale!' },
+    { at: 320, txt: 'Occhio alle DEADLINE: resta a terra!' },
+    { at: 520, txt: 'Le corone ora rimbalzano!' },
+    { at: 750, txt: 'Sessione straordinaria!' }
   ];
+  // Ostacoli bassi per i primi CFU, così si prende confidenza
+  const EASY = GROUND.filter(o => o.h <= 40);
   const MILESTONES = [[180, 'Laurea triennale!'], [300, 'Magistrale!'], [480, 'Dottorato?!'], [800, 'Rettore.']];
 
   let canvas, ctx, W = 600, scale = 1, raf = 0, last = 0;
   let state = 'ready';              // ready | run | over
-  let p, obs, speed, score, nextGap, frame, banner, groundOff, level;
+  let p, obs, speed, score, nextGap, frame, banner, groundOff, level, jumpQueued;
   let onCloseCb = null;
 
   const store = {
@@ -68,13 +70,15 @@
 
   function reset() {
     p = { x: 64, y: GY, vy: 0, ground: true };
-    obs = []; speed = 6; score = 0; frame = 0; banner = null; groundOff = 0; level = 0;
+    obs = []; speed = 5.5; score = 0; frame = 0; banner = null; groundOff = 0; level = 0; jumpQueued = -99;
     nextGap = 220;
   }
 
   function jump() {
     if (state === 'ready') return start();
-    if (state === 'run' && p.ground) { p.vy = -12.6; p.ground = false; }
+    if (state !== 'run') return;
+    if (p.ground) { p.vy = -12.6; p.ground = false; }
+    else jumpQueued = frame;   // tocco in aria: se atterri entro pochi istanti, salta da solo
   }
 
   function start() {
@@ -97,29 +101,36 @@
     if (level >= 2 && r < 0.2) {
       // davanti alla deadline serve spazio per atterrare dal salto precedente
       const prev = obs[obs.length - 1];
-      const fx = prev ? Math.max(x, prev.x + prev.w + speed * 34) : x;
+      const fx = prev ? Math.max(x, prev.x + prev.w + speed * 44) : x;
       const t = pick(FLYING);
       ctx.font = '800 10px Inter, system-ui, sans-serif';
       obs.push({ kind: 'fly', t, x: fx, w: Math.max(70, ctx.measureText(t).width + 18), h: 22, bottom: GY - 76 });
-      nextGap = Math.max(speed * 34, 300 + Math.random() * 160);   // spazio libero sotto la deadline
+      nextGap = Math.max(speed * 44, 300 + Math.random() * 160);   // spazio libero sotto la deadline
       return;
     }
     if (level >= 1 && r < 0.42) {
-      const bounce = level >= 3 && Math.random() < 0.6;
-      obs.push({ kind: 'wreath', x, w: 32, h: 32, extra: bounce ? 1.5 : 2.6, bounce, phase: Math.random() * Math.PI, rot: 0 });
+      const bounce = level >= 3 && Math.random() < 0.5;
+      const extra = bounce ? 0.6 : 1.2;
+      // la corona va più veloce: parte più indietro del tanto che recupera prima di arrivare all'omino
+      const prev = obs[obs.length - 1];
+      const catchUp = extra * (W - p.x) / speed;
+      const wx = prev ? Math.max(x, prev.x + prev.w + speed * 44 + catchUp) : x;
+      obs.push({ kind: 'wreath', x: wx, w: 28, h: 28, extra, bounce, phase: Math.random() * Math.PI, rot: 0 });
+      nextGap = Math.max(speed * 44, 260 + Math.random() * 220);
+      return;
     } else {
-      const type = pick(GROUND);
+      const type = pick(score < 100 ? EASY : GROUND);
       obs.push(Object.assign({ kind: 'box', x }, type));
       // ostacoli doppi sempre più frequenti
-      const dbl = level >= 4 ? 0.45 : level >= 2 ? 0.3 : speed > 8 ? 0.2 : 0;
+      const dbl = level >= 4 ? 0.35 : level >= 2 ? 0.2 : speed > 8.5 ? 0.12 : 0;
       if (Math.random() < dbl) {
         const t2 = pick(GROUND);
         obs.push(Object.assign({ kind: 'box', x: x + type.w + 6 }, t2, { h: Math.min(t2.h, 36) }));
       }
     }
     // gli spazi si accorciano col punteggio, ma restano sempre saltabili
-    const shrink = Math.min(150, score * 0.22);
-    nextGap = Math.max(speed * 30, 230 + Math.random() * 260 + speed * 14 - shrink);
+    const shrink = Math.min(120, score * 0.14);
+    nextGap = Math.max(speed * 44, 250 + Math.random() * 260 + speed * 14 - shrink);
   }
 
   function loop(now) {
@@ -131,7 +142,7 @@
 
   function update(dt) {
     frame += dt;
-    speed = Math.min(level >= 4 ? 15 : 13.5, speed + 0.0028 * dt);
+    speed = Math.min(level >= 4 ? 12.5 : 11, speed + 0.0018 * dt);
     const prev = Math.floor(score);
     score += speed * dt * 0.045;
     const now = Math.floor(score);
@@ -142,7 +153,10 @@
     // fisica dell'omino
     p.vy += 0.62 * dt;
     p.y += p.vy * dt;
-    if (p.y >= GY) { p.y = GY; p.vy = 0; p.ground = true; }
+    if (p.y >= GY) {
+      p.y = GY; p.vy = 0; p.ground = true;
+      if (frame - jumpQueued < 9) { jumpQueued = -99; p.vy = -12.6; p.ground = false; }
+    }
 
     groundOff = (groundOff + speed * dt) % 40;
 
@@ -150,7 +164,7 @@
       o.x -= (speed + (o.extra || 0)) * dt;
       if (o.kind === 'wreath') {
         o.rot -= (speed + o.extra) * dt / 16;
-        o.lift = o.bounce ? Math.abs(Math.sin(frame * 0.09 + o.phase)) * 46 : 0;
+        o.lift = o.bounce ? Math.abs(Math.sin(frame * 0.07 + o.phase)) * 22 : 0;
       }
     });
     obs = obs.filter(o => o.x + o.w > -10);
@@ -159,9 +173,9 @@
     else if (lastOb.x < W - nextGap) spawn();
 
     // collisione con un po' di tolleranza, per non sembrare ingiusta
-    const px1 = p.x - 8, px2 = p.x + 8, py1 = p.y - 54, py2 = p.y;
+    const px1 = p.x - 7, px2 = p.x + 7, py1 = p.y - 52, py2 = p.y;
     for (const o of obs) {
-      let ox1 = o.x + 4, ox2 = o.x + o.w - 4, oy1, oy2;
+      let ox1 = o.x + 5, ox2 = o.x + o.w - 5, oy1, oy2;
       if (o.kind === 'fly') { oy1 = o.bottom - o.h; oy2 = o.bottom - 4; }
       else if (o.kind === 'wreath') { oy2 = GY - o.lift - 4; oy1 = oy2 - o.h + 8; }
       else { oy1 = GY - o.h + 4; oy2 = GY; }
@@ -420,4 +434,5 @@
     loadBoard();
   }
 
-  window.Gioco = { init, open, close, loadBoard };})();
+  window.Gioco = { init, open, close, loadBoard };
+})();
