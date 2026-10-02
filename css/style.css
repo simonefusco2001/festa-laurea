@@ -230,13 +230,13 @@ body.locked .nav { visibility: hidden; }
 .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 420px; margin: 28px auto 0; }
 .countdown div { background: var(--yellow); border: var(--border); border-radius: 12px; padding: 8px 0; font-size: 13px; font-weight: 600; }
 .countdown b { display: block; font-family: var(--font-head); font-size: 34px; font-weight: 800; line-height: 1.1; }
-.ansia { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin: 64px 0 14px; }
+.ansia { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin: 78px 0 14px; }
 .hero { padding-bottom: 0; }
 .meme-ansia {
   width: min(320px, 82%); margin: 0 auto; border: var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); transform: rotate(-2deg);
 }
-.ansia-wrap { display: flex; flex-direction: column; align-items: center; }
+.ansia-wrap { display: flex; flex-direction: column; align-items: center; padding-bottom: 14px; }
 /* nota sotto la foto: immagine, poi freccia che punta in su, poi la scritta */
 .ansia-wrap .meme-ansia { order: 1; }
 .ansia-wrap .sticker-arrow { order: 2; margin: 2px 0 14px -40px; transform: scaleY(-1); }
@@ -271,8 +271,8 @@ body.locked .nav { visibility: hidden; }
 .sticker--a { transform: rotate(-12deg); }
 .sticker--b { transform: rotate(10deg); background: var(--coral); }
 @media (max-width: 720px) {
-  .hero { padding-top: 104px; padding-bottom: 10px; }
-  .ansia { margin-top: 56px; }
+  .hero { padding-top: 104px; padding-bottom: 0; }
+  .ansia { margin-top: 60px; }
   .stickers { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
   .sticker-wrap { position: static; }
   .sticker { width: 96px; height: 96px; }
