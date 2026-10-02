@@ -402,11 +402,23 @@ input, select, textarea {
   box-shadow: 2px 2px 0 var(--ink);
 }
 .info-btn[aria-expanded="true"] { background: var(--ink); color: var(--yellow); }
-.info-pop {
-  margin: 8px 0 2px; padding: 10px 12px; font-size: 13px; line-height: 1.45; background: var(--cream);
-  border: 2px solid var(--ink); border-radius: 10px; animation: pop .2s ease-out;
+/* pop-up a riquadro, sopra la pagina, chiudibile con la X */
+.modal {
+  position: fixed; inset: 0; z-index: 1100; display: flex; align-items: center; justify-content: center;
+  padding: 20px; background: rgba(17, 17, 17, .55);
 }
-.info-pop[hidden] { display: none; }
+.modal[hidden] { display: none; }
+.modal__card {
+  position: relative; width: 100%; max-width: 380px; background: var(--cream); border: var(--border);
+  border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); padding: 22px 20px 18px; animation: pop .2s ease-out;
+}
+.modal__card h3 { font-size: 21px; margin: 0 28px 10px 0; }
+.modal__card p { font-size: 15px; line-height: 1.5; margin: 0 0 10px; }
+.modal__card p:last-child { margin-bottom: 0; }
+.modal__x {
+  position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid var(--ink); background: var(--white); color: var(--ink); font-size: 16px; font-weight: 700; cursor: pointer;
+}
 .hint { font-size: 13px; margin: 6px 0 0; color: #444; }
 .privacy {
   font-size: 12px; line-height: 1.45; color: #444; margin: 18px 0 26px;

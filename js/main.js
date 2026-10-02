@@ -120,13 +120,19 @@
       'e del voto della sua prima prova intermedia.';
   });
 
-  // Info sul menù di pesce: il pulsante "i" apre e chiude il riquadro
-  $$('.info-btn').forEach(btn => btn.addEventListener('click', () => {
-    const pop = document.getElementById(btn.getAttribute('aria-controls'));
-    const open = pop.hidden;
-    pop.hidden = !open;
-    btn.setAttribute('aria-expanded', open);
-  }));
+  // Info sul menù di pesce: il pulsante "i" apre il pop-up; si chiude con la X, toccando fuori o con Esc
+  $$('.info-btn').forEach(btn => {
+    const modal = document.getElementById(btn.getAttribute('aria-controls'));
+    const close = () => { modal.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.focus(); };
+    btn.addEventListener('click', () => {
+      modal.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      $('.modal__x', modal).focus();
+    });
+    $('.modal__x', modal).addEventListener('click', close);
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) close(); });
+  });
 
   function show(id) {
     $$('.step').forEach(s => s.classList.toggle('is-active', s.id === 'step-' + id));
