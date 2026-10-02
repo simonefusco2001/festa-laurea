@@ -104,6 +104,7 @@ section { padding: 72px 0; }
   background: var(--ink); color: var(--yellow); padding: 10px 20px; border-radius: 999px;
   animation: pulse 1.4s ease-in-out infinite;
 }
+@keyframes pop { from { opacity: 0; transform: scale(.7); } }
 @keyframes pulse { 50% { transform: scale(1.07); } }
 
 /* ---------- Minigioco ---------- */
@@ -205,12 +206,12 @@ body.locked .nav { visibility: hidden; }
 
 /* ---------- Hero ---------- */
 .hero { padding-top: 130px; text-align: center; position: relative; overflow: hidden; }
-/* il messaggio principale: si capisce subito che è un invito alla festa di laurea */
+/* "Sei invitato alla mia festa di laurea": di contorno, si legge ma non compete con il titolo */
 .eyebrow {
-  display: inline-block; margin: 0 0 20px;
-  font-family: var(--font-head); font-weight: 800; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.25;
+  display: inline-block; margin: 0 0 16px;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px; line-height: 1.35; color: #444;
 }
-.eyebrow b { text-transform: uppercase; }
+.eyebrow b { font-weight: 700; color: var(--ink); }
 /* urgenza come testo, non come riquadro: il pulsante resta l'unico elemento "pieno" */
 .hero .urgency { margin: 16px auto 0; font-size: 15px; font-weight: 600; max-width: 340px; }
 .hero .urgency b { white-space: nowrap; }
@@ -234,6 +235,9 @@ body.locked .nav { visibility: hidden; }
   width: min(320px, 82%); margin: 0 auto; border: var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); transform: rotate(-2deg);
 }
+.ansia-wrap { display: flex; flex-direction: column; align-items: center; }
+.ansia-wrap .sticker-note { transform: rotate(-4deg); margin-right: 120px; }
+.ansia-wrap .sticker-arrow { margin: 0 0 -6px -40px; }
 
 /* Data e ora in evidenza */
 .when {
@@ -274,10 +278,17 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap, .gift-hero .sticker-wrap { position: absolute; top: 88px; z-index: 2; }
   .hero .sticker-wrap--a, .gift-hero .sticker-wrap--a { left: 10px; }
   .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 10px; }
-  .hero .sticker-note, .hero .sticker-arrow, .gift-hero .sticker-note, .gift-hero .sticker-arrow { display: none; }
+  .sticker-wrap .sticker-note, .sticker-wrap .sticker-arrow { display: none; }
   .hero .sticker, .gift-hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
   .gift-hero .kicker { margin: 18px 0 30px; }
   .notice:not([hidden]) ~ main .gift-hero .sticker-wrap { top: 22px; }
+  .hero .sticker-wrap, .gift-hero .sticker-wrap { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .hero .show-note .sticker-note, .gift-hero .show-note .sticker-note {
+    display: block; position: absolute; top: calc(100% + 8px); z-index: 3;
+    white-space: nowrap; font-size: 12px; animation: pop .25s ease-out;
+  }
+  .hero .sticker-wrap--a .sticker-note, .gift-hero .sticker-wrap--a .sticker-note { left: -4px; }
+  .hero .sticker-wrap--b .sticker-note, .gift-hero .sticker-wrap--b .sticker-note { right: -4px; }
   /* titolo dei regali con le stesse proporzioni del desktop: "versione onesta." su una riga */
   .gift-hero h1 { font-size: clamp(30px, 10vw, 40px); }
   .gift-hero .hl { white-space: nowrap; }
@@ -285,8 +296,8 @@ body.locked .nav { visibility: hidden; }
   main .gift-hero .gift-lead { font-size: 15px; line-height: 1.5; max-width: 330px; color: #333; }
   main .gift-hero h1 { margin-bottom: 18px; }
   /* i titoli delle sezioni (h2) devono restare sotto il titolo della pagina (h1) */
-  .gift-sec h2, #iban h2 { font-size: clamp(21px, 6vw, 26px); line-height: 1.15; }
-  .hero .eyebrow { display: block; margin: 8px 0 22px; padding: 8px 76px; font-size: 16px; }
+  main .gift-sec h2, main #iban h2 { font-size: 21px; line-height: 1.2; }
+  .hero .eyebrow { display: block; margin: 14px 0 18px; padding: 0 78px; font-size: 14px; }
   /* stesse proporzioni del desktop: il titolo è l'elemento più largo, il resto più stretto e centrato */
   .hero .btn--big { width: auto; display: inline-block; padding: 15px 30px; font-size: 20px; }
   .hero .countdown { max-width: 300px; gap: 8px; }
@@ -298,7 +309,7 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap, .gift-hero .sticker-wrap { top: 92px; }
   .hero .sticker-wrap--a, .gift-hero .sticker-wrap--a { left: 6px; }
   .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 6px; }
-  .hero .eyebrow { padding: 6px 58px; font-size: 14px; }
+  .hero .eyebrow { padding: 0 60px; font-size: 13px; }
 }
 /* telefoni piccoli (iPhone SE): le etichette lunghe vanno su due righe invece di uscire dallo schermo */
 @media (max-width: 380px) {

@@ -7,6 +7,10 @@
   if (params.get('g')) {
     try { localStorage.setItem('festa_token', params.get('g')); } catch (e) {}
   }
+  // ?reset=gioco azzera il record del minigioco salvato su questo telefono (il foglio va pulito a mano)
+  if (params.get('reset') === 'gioco') {
+    try { ['festa_best', 'festa_best_saved'].forEach(k => localStorage.removeItem(k)); } catch (e) {}
+  }
   function getToken() {
     try { return localStorage.getItem('festa_token') || ''; } catch (e) { return ''; }
   }
@@ -78,6 +82,42 @@
     if (BLOCKED.includes(nameKey(s))) return 'Bel tentativo. Ora scrivi il tuo nome vero.';
     return '';
   }
+
+  // Su telefono le etichette degli sticker sono nascoste: compaiono al tocco
+  // e, la prima volta che gli sticker entrano nello schermo, da sole per qualche secondo.
+  function initStickerNotes() {
+    const mobile = window.matchMedia('(max-width: 720px)');
+    const wraps = document.querySelectorAll('.hero .sticker-wrap, .gift-hero .sticker-wrap');
+    if (!wraps.length) return;
+    wraps.forEach(w => w.addEventListener('click', () => {
+      if (!mobile.matches) return;
+      const open = !w.classList.contains('show-note');
+      wraps.forEach(x => x.classList.remove('show-note'));
+      if (open) w.classList.add('show-note');
+    }));
+    if (!('IntersectionObserver' in window)) return;
+    const watch = () => {
+      const io = new IntersectionObserver(entries => {
+        if (!entries.some(e => e.isIntersecting) || !mobile.matches) return;
+        io.disconnect();
+        setTimeout(() => {
+          wraps.forEach(w => w.classList.add('show-note'));
+          setTimeout(() => wraps.forEach(w => w.classList.remove('show-note')), 2600);
+        }, 600);
+      }, { threshold: 1 });
+      wraps.forEach(w => io.observe(w));
+    };
+    // nella home aspetta che biglietto e minigioco siano chiusi, altrimenti il fumetto non lo vede nessuno
+    if (!document.body.classList.contains('locked')) return watch();
+    const mo = new MutationObserver(() => {
+      if (document.body.classList.contains('locked')) return;
+      mo.disconnect();
+      watch();
+    });
+    mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initStickerNotes);
+  else initStickerNotes();
 
   window.Festa = { getToken, api, confetti, nameError };
 })();
