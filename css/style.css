@@ -285,7 +285,7 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 10px; }
   .sticker-wrap .sticker-note, .sticker-wrap .sticker-arrow { display: none; }
   .hero .sticker, .gift-hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
-  main .gift-hero .kicker { margin: 18px 0 52px; }
+  main .gift-hero .kicker { margin: 4px 0 66px; }
   .notice:not([hidden]) ~ main .gift-hero .sticker-wrap { top: 22px; }
   .hero .sticker-wrap, .gift-hero .sticker-wrap { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .hero .show-note .sticker-note, .gift-hero .show-note .sticker-note {
@@ -311,6 +311,9 @@ body.locked .nav { visibility: hidden; }
 }
 /* iPhone SE: sticker più piccoli così il messaggio della hero resta su due righe */
 @media (max-width: 360px) {
+  /* regali: fumetti un po' più in basso per staccarli da "Grazie per esserci" */
+  .gift-hero .show-note .sticker-note { top: calc(100% + 20px); }
+  main .gift-hero .kicker { margin-bottom: 78px; }
   .hero .sticker, .gift-hero .sticker { width: 52px; height: 52px; }
   .hero .sticker-wrap, .gift-hero .sticker-wrap { top: 92px; }
   .hero .sticker-wrap--a, .gift-hero .sticker-wrap--a { left: 6px; }
