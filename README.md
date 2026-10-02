@@ -21,7 +21,7 @@ Invito online alla mia festa di laurea (la seconda, *di nuovo*), costruito come 
 | 📋 Specifiche tecniche | Data, ora, location, cosa portare e dress code (Birkenstock vietate) |
 | 📍 Location | Mappa, foto e link al Casale Valle Palomba |
 | 🕖 Programma | Dall'aperitivo delle 19 alla proclamazione del campione, con una sorpresa in mezzo (si suderà) |
-| ✅ Conferma la presenza | RSVP con nome e allergie. Chi prova a dire di no dovrà superare qualche domanda di troppo |
+| ✅ Conferma la presenza | RSVP con nome e allergie (menù di pesce da chef stellati, forse). Chi prova a dire di no dovrà superare qualche domanda di troppo |
 | 🎁 Lista regali, versione onesta | Regali da evitare, idee "per restare umili" e IBAN visibile solo a chi ha confermato |
 
 ## Come funziona

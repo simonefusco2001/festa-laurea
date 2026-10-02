@@ -24,6 +24,7 @@ Istruzioni per far funzionare il sito con Google Sheet. Il README principale pre
 - Se nella colonna `nome` scrivi la lista degli invitati, ogni risposta viene abbinata alla riga giusta (maiuscole, accenti e ordine delle parole non contano). Chi ha `risposta` vuota non ha ancora risposto.
 - I nomi che non sono nella lista finiscono in fondo con **⚠️ non in lista, da verificare** nella colonna `controllo`.
 - La colonna `punteggio` contiene il miglior punteggio del minigioco: il più alto vince il premio.
+- Per azzerare la classifica svuota le colonne `punteggio` e `data_punteggio`. Ogni dispositivo ricorda anche il proprio record: aprendo `https://simonefusco2001.github.io/festa-laurea/?reset=gioco` lo si azzera su quel dispositivo.
 - Facoltativo: **🎓 Festa → Genera i link degli invitati** crea un link personale per ogni nome della lista.
 
 ## Aggiornare il sito
