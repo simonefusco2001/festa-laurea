@@ -331,6 +331,11 @@
     setStatus('Salvo il punteggio in classifica…');
     try {
       const res = await Festa.api({ action: 'score', score: s, nome: nome || getNome() });
+      if (res.queued) {
+        $('#g-name-form').hidden = true;
+        setStatus('Classifica un po\' intasata: il tuo record si salva da solo tra poco.');
+        return;
+      }
       if (!res.ok) throw new Error(res.error);
       store.set('festa_best_saved', s);
       $('#g-name-form').hidden = true;

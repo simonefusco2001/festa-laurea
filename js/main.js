@@ -156,12 +156,15 @@
     btn.textContent = 'Invio…'; btn.disabled = true;
     try {
       const res = await Festa.api(payload);
-      if (!res.ok) throw new Error(res.error || 'errore');
+      // queued = Google era intasato: la risposta è salvata sul telefono e parte da sola appena possibile
+      if (!res.ok && !res.queued) throw new Error(res.error || 'errore');
       try { localStorage.setItem('festa_rsvp', payload.risposta); } catch (e) {}
       show(doneStep);
       return true;
     } catch (e) {
-      err.textContent = 'Non sono riuscito a inviare. Riprova tra un attimo.';
+      err.textContent = e.message === 'nome e cognome mancanti'
+        ? 'Scrivi nome e cognome veri, così so chi sei.'
+        : 'Non sono riuscito a inviare. Riprova tra un attimo.';
       return false;
     } finally {
       btn.textContent = old; btn.disabled = false;

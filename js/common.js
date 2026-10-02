@@ -20,18 +20,75 @@
   }
 
   // Comunicazione con Google Apps Script. Senza URL: modalità demo.
-  async function api(payload) {
-    if (!F.appsScriptUrl) {
-      return { ok: true, demo: true };
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  // Una chiamata allo script, con un tempo massimo: se Google è lento non resta appesa per sempre
+  async function call(body) {
+    const ctrl = 'AbortController' in window ? new AbortController() : null;
+    const timer = ctrl && setTimeout(() => ctrl.abort(), 30000);
+    try {
+      // text/plain evita il preflight CORS, che Apps Script non gestisce
+      const res = await fetch(F.appsScriptUrl, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body, signal: ctrl ? ctrl.signal : undefined
+      });
+      const text = await res.text();
+      try { return JSON.parse(text); } catch (e) { return { ok: false, error: 'risposta non valida', retry: true }; }
+    } catch (e) {
+      return { ok: false, error: 'rete', retry: true };
+    } finally {
+      if (timer) clearTimeout(timer);
     }
-    // text/plain evita il preflight CORS, che Apps Script non gestisce
-    const res = await fetch(F.appsScriptUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(Object.assign({ token: getToken(), nome: getNome() }, payload))
-    });
-    return res.json();
   }
+
+  // Invio con riprova: se lo script è occupato o la rete salta, ritenta da solo fino a 3 volte
+  async function api(payload) {
+    if (!F.appsScriptUrl) return { ok: true, demo: true };
+    const body = JSON.stringify(Object.assign({ token: getToken(), nome: getNome() }, payload));
+    let res;
+    for (let i = 0; i < 3; i++) {
+      res = await call(body);
+      if (res.ok || !res.retry) return res;
+      await wait(1500 * (i + 1) + Math.random() * 1000);
+    }
+    // conferme e punteggi non si perdono: restano salvati sul telefono e si rimandano in automatico
+    if (payload.action === 'rsvp' || payload.action === 'score') {
+      queue(body, payload.action);
+      return Object.assign({}, res, { queued: true });
+    }
+    return res;
+  }
+
+  function queue(body, action) {
+    try {
+      const q = JSON.parse(localStorage.getItem('festa_pending') || '{}');
+      q[action] = body;   // una sola in attesa per tipo: vale l'ultima risposta / il record più alto
+      localStorage.setItem('festa_pending', JSON.stringify(q));
+    } catch (e) {}
+  }
+
+  async function flushQueue() {
+    if (!F.appsScriptUrl) return;
+    let q;
+    try { q = JSON.parse(localStorage.getItem('festa_pending') || '{}'); } catch (e) { return; }
+    for (const action of Object.keys(q)) {
+      const body = q[action];
+      const res = await call(body);
+      if (res.ok || !res.retry) {
+        delete q[action];
+        if (res.ok && action === 'score') {
+          try { localStorage.setItem('festa_best_saved', JSON.parse(body).score); } catch (e) {}
+        }
+      }
+    }
+    try { localStorage.setItem('festa_pending', JSON.stringify(q)); } catch (e) {}
+  }
+  function hasPending() {
+    try { return Object.keys(JSON.parse(localStorage.getItem('festa_pending') || '{}')).length > 0; } catch (e) { return false; }
+  }
+  // all'apertura e poi ogni 20 secondi, finché c'è qualcosa in attesa
+  setTimeout(flushQueue, 2500);
+  setInterval(() => { if (hasPending()) flushQueue(); }, 20000);
 
   // Coriandoli
   function confetti() {
@@ -119,5 +176,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initStickerNotes);
   else initStickerNotes();
 
-  window.Festa = { getToken, api, confetti, nameError };
+  window.Festa = { getToken, api, confetti, nameError, flush: flushQueue };
 })();

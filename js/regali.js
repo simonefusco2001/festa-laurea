@@ -20,6 +20,7 @@
     err.textContent = '';
     btn.textContent = 'Un attimo…'; btn.disabled = true;
     try {
+      await Festa.flush();   // se la conferma era in coda, parte prima di chiedere l'IBAN
       const res = await Festa.api({ action: 'iban' });
       if (!res.ok || (!res.demo && !res.iban)) throw new Error(res.error || 'non autorizzato');
       $('#iban-text').textContent = res.demo ? F.ibanDemo : res.iban;

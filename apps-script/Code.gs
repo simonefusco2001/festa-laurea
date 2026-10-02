@@ -79,16 +79,23 @@ function doGet(e) {
 function doPost(e) {
   let data;
   try { data = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'richiesta non valida' }); }
-  const lock = LockService.getScriptLock();
-  lock.waitLock(10000);
   try {
-    if (data.action === 'rsvp') return json_(rsvp_(data));
-    if (data.action === 'score') return json_(score_(data));
-    if (data.action === 'iban') return json_(iban_(data));
+    // le letture non si mettono in coda: con tante persone insieme rallentavano tutti
     if (data.action === 'classifica') return json_(classifica_(data));
-    return json_({ ok: false, error: 'azione sconosciuta' });
-  } finally {
-    lock.releaseLock();
+    if (data.action === 'iban') return json_(iban_(data));
+    if (data.action !== 'rsvp' && data.action !== 'score') return json_({ ok: false, error: 'azione sconosciuta' });
+
+    // le scritture una alla volta, per non sovrascriversi; se la coda è lunga il sito riprova
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(25000)) return json_({ ok: false, error: 'occupato', retry: true });
+    try {
+      return json_(data.action === 'rsvp' ? rsvp_(data) : score_(data));
+    } finally {
+      lock.releaseLock();
+    }
+  } catch (err) {
+    // qualsiasi errore torna come risposta leggibile dal sito, che così può riprovare
+    return json_({ ok: false, error: 'errore temporaneo', retry: true });
   }
 }
 
