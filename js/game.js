@@ -176,7 +176,7 @@
     const px1 = p.x - 7, px2 = p.x + 7, py1 = p.y - 52, py2 = p.y;
     for (const o of obs) {
       let ox1 = o.x + 5, ox2 = o.x + o.w - 5, oy1, oy2;
-      if (o.kind === 'fly') { oy1 = o.bottom - o.h; oy2 = o.bottom - 4; }
+      if (o.kind === 'fly') { oy1 = -999; oy2 = o.bottom - 4; }   // appeso dall'alto: si passa solo sotto
       else if (o.kind === 'wreath') { oy2 = GY - o.lift - 4; oy1 = oy2 - o.h + 8; }
       else { oy1 = GY - o.h + 4; oy2 = GY; }
       if (px2 > ox1 && px1 < ox2 && py2 > oy1 && py1 < oy2) return gameOver();
@@ -266,10 +266,11 @@
     ctx.fillStyle = INK; ctx.fillRect(o.x + 3, y + 3, o.w, o.h);
     ctx.fillStyle = CORAL; ctx.fillRect(o.x, y, o.w, o.h);
     ctx.strokeStyle = INK; ctx.lineWidth = 2.5; ctx.strokeRect(o.x, y, o.w, o.h);
-    // piccole ali per far capire che vola
-    const wing = Math.sin(frame * 0.4) * 4;
-    ctx.beginPath(); ctx.moveTo(o.x + 10, y); ctx.lineTo(o.x + 4, y - 8 - wing); ctx.lineTo(o.x + 22, y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(o.x + o.w - 22, y); ctx.lineTo(o.x + o.w - 4, y - 8 - wing); ctx.lineTo(o.x + o.w - 10, y); ctx.stroke();
+    // due corde fino in cima: il cartello è appeso, sopra non si passa
+    const sway = Math.sin(frame * 0.08) * 2;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(o.x + 12, y); ctx.lineTo(o.x + 12 + sway, -10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(o.x + o.w - 12, y); ctx.lineTo(o.x + o.w - 12 + sway, -10); ctx.stroke();
     ctx.font = '800 10px Inter, system-ui, sans-serif';
     ctx.fillStyle = INK; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(o.t, o.x + o.w / 2, y + o.h / 2 + 1);
