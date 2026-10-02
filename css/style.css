@@ -230,7 +230,8 @@ body.locked .nav { visibility: hidden; }
 .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 420px; margin: 28px auto 0; }
 .countdown div { background: var(--yellow); border: var(--border); border-radius: 12px; padding: 8px 0; font-size: 13px; font-weight: 600; }
 .countdown b { display: block; font-family: var(--font-head); font-size: 34px; font-weight: 800; line-height: 1.1; }
-.ansia { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin: 26px 0 14px; }
+.ansia { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin: 64px 0 14px; }
+.hero { padding-bottom: 0; }
 .meme-ansia {
   width: min(320px, 82%); margin: 0 auto; border: var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); transform: rotate(-2deg);
@@ -269,7 +270,8 @@ body.locked .nav { visibility: hidden; }
 .sticker--a { transform: rotate(-12deg); }
 .sticker--b { transform: rotate(10deg); background: var(--coral); }
 @media (max-width: 720px) {
-  .hero { padding-top: 104px; padding-bottom: 40px; }
+  .hero { padding-top: 104px; padding-bottom: 10px; }
+  .ansia { margin-top: 56px; }
   .stickers { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
   .sticker-wrap { position: static; }
   .sticker { width: 96px; height: 96px; }
@@ -292,7 +294,8 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap--a .sticker-note, .gift-hero .sticker-wrap--a .sticker-note { left: -4px; }
   .hero .sticker-wrap--b .sticker-note, .gift-hero .sticker-wrap--b .sticker-note { right: -4px; }
   /* titolo dei regali con le stesse proporzioni del desktop: "versione onesta." su una riga */
-  .gift-hero h1 { font-size: clamp(30px, 10vw, 40px); }
+  .gift-hero h1 { font-size: clamp(30px, 10.4vw, 42px); }
+  main .gift-hero { padding-bottom: 12px; }
   .gift-hero .hl { white-space: nowrap; }
   /* sottotitolo: più piccolo e compatto, non deve competere con il titolo */
   main .gift-hero .gift-lead { font-size: 15px; line-height: 1.5; max-width: 330px; color: #333; }
@@ -332,7 +335,7 @@ body.locked .nav { visibility: hidden; }
 .halloween { margin-top: 16px; font-size: 15px; transform: rotate(-.6deg); }
 
 /* ---------- Location ---------- */
-.map { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin: 22px 0 16px; background: var(--white); }
+.map { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin: 22px 0 28px; background: var(--white); }
 .map iframe { display: block; width: 100%; height: 340px; border: 0; }
 /* i due pulsanti della location: centrati e affiancati, su telefono e su desktop */
 .loc-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
@@ -407,6 +410,7 @@ footer { padding: 36px 0 90px; text-align: center; font-size: 14px; }
 .gift-hero .hl { background: var(--yellow); border: var(--border); border-radius: 10px; padding: 0 .12em; display: inline-block; transform: rotate(-2deg); margin-top: 8px; }
 .gift-lead { font-size: 19px; max-width: 540px; margin: 0 auto; line-height: 1.6; }
 .gift-sec { padding-top: 36px; }
+.gift-hero { padding-bottom: 28px; }
 .gift-head { display: flex; align-items: center; gap: 24px; margin-bottom: 26px; }
 .gift-head h2 { flex: 1; margin: 0; }
 .ideas { display: grid; grid-template-columns: 1fr; gap: 18px; }
