@@ -236,8 +236,10 @@ body.locked .nav { visibility: hidden; }
   box-shadow: var(--shadow); transform: rotate(-2deg);
 }
 .ansia-wrap { display: flex; flex-direction: column; align-items: center; }
-.ansia-wrap .sticker-note { transform: rotate(-4deg); margin-right: 120px; }
-.ansia-wrap .sticker-arrow { margin: 0 0 -6px -40px; }
+/* nota sotto la foto: immagine, poi freccia che punta in su, poi la scritta */
+.ansia-wrap .meme-ansia { order: 1; }
+.ansia-wrap .sticker-arrow { order: 2; margin: 2px 0 0 -40px; transform: scaleY(-1); }
+.ansia-wrap .sticker-note { order: 3; transform: rotate(-4deg); margin-right: 120px; }
 
 /* Data e ora in evidenza */
 .when {
@@ -280,7 +282,7 @@ body.locked .nav { visibility: hidden; }
   .hero .sticker-wrap--b, .gift-hero .sticker-wrap--b { right: 10px; }
   .sticker-wrap .sticker-note, .sticker-wrap .sticker-arrow { display: none; }
   .hero .sticker, .gift-hero .sticker { width: 64px; height: 64px; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink); }
-  .gift-hero .kicker { margin: 18px 0 30px; }
+  main .gift-hero .kicker { margin: 18px 0 52px; }
   .notice:not([hidden]) ~ main .gift-hero .sticker-wrap { top: 22px; }
   .hero .sticker-wrap, .gift-hero .sticker-wrap { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .hero .show-note .sticker-note, .gift-hero .show-note .sticker-note {
@@ -297,7 +299,7 @@ body.locked .nav { visibility: hidden; }
   main .gift-hero h1 { margin-bottom: 18px; }
   /* i titoli delle sezioni (h2) devono restare sotto il titolo della pagina (h1) */
   main .gift-sec h2, main #iban h2 { font-size: 21px; line-height: 1.2; }
-  .hero .eyebrow { display: block; margin: 14px 0 18px; padding: 0 78px; font-size: 14px; }
+  .hero .eyebrow { display: block; margin: 14px 0 50px; padding: 0 78px; font-size: 14px; }
   /* stesse proporzioni del desktop: il titolo è l'elemento più largo, il resto più stretto e centrato */
   .hero .btn--big { width: auto; display: inline-block; padding: 15px 30px; font-size: 20px; }
   .hero .countdown { max-width: 300px; gap: 8px; }
