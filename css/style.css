@@ -239,7 +239,8 @@ body.locked .nav { visibility: hidden; }
 .ansia-wrap { display: flex; flex-direction: column; align-items: center; }
 /* nota sotto la foto: immagine, poi freccia che punta in su, poi la scritta */
 .ansia-wrap .meme-ansia { order: 1; }
-.ansia-wrap .sticker-arrow { order: 2; margin: 2px 0 0 -40px; transform: scaleY(-1); }
+.ansia-wrap .sticker-arrow { order: 2; margin: 2px 0 14px -40px; transform: scaleY(-1); }
+.ansia-wrap .sticker-note { position: relative; z-index: 1; }
 .ansia-wrap .sticker-note { order: 3; transform: rotate(-4deg); margin-right: 120px; }
 
 /* Data e ora in evidenza */
