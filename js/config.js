@@ -19,6 +19,8 @@ window.FESTA = {
   // Vuoto = modalità demo: le risposte restano solo nel tuo browser.
   // Gara chiusa: il gioco resta giocabile ma non salva punteggi e la classifica è segreta
   giocoChiuso: true,
+  // da quest'ora la classifica segreta si svela da sola (i punteggi restano bloccati)
+  classificaVisibileDal: '2026-10-31T22:00:00+01:00',
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyR3BMJ8pquToaXrNV1Eaxb5Gi9b8ny6okLg9ldNDdnwsL5TMmFJNF9SlCt0rNmRUGl/exec',
   // Usato solo in modalità demo
   confermatiDemo: 23,

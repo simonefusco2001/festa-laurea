@@ -316,7 +316,7 @@
     setTimeout(() => canvas.parentElement.classList.remove('shake'), 400);
 
     if (window.FESTA.giocoChiuso) {
-      setStatus('Gara chiusa: punteggio non salvato. Il vincitore sarà svelato alla festa!');
+      setStatus(isSecret() ? 'Gara chiusa: punteggio non salvato. Il vincitore sarà svelato alla festa!' : 'Gara chiusa: punteggio non salvato. Ecco la classifica finale!');
     } else if (best <= getSaved()) {
       setStatus(`Il tuo record (${best} CFU) è già in classifica.`);
     } else if (!Festa.getToken() && !getNome()) {
@@ -350,8 +350,12 @@
   }
 
   // Classifica generale: mostra solo nome e iniziale del cognome
+  const revealAt = () => Date.parse(window.FESTA.classificaVisibileDal || '') || Infinity;
+  const isSecret = () => window.FESTA.giocoChiuso && Date.now() < revealAt();
+
   async function loadBoard() {
-    if (window.FESTA.giocoChiuso) return secretBoard();
+    if (isSecret()) return secretBoard();
+    if (window.FESTA.giocoChiuso) revealTexts();
     let rows = null;
     try {
       const res = await Festa.api({ action: 'classifica' });
@@ -361,7 +365,12 @@
     document.querySelectorAll('[data-board]').forEach(el => {
       const box = el.closest('[data-board-box]');
       if (!rows) { if (box) box.hidden = true; return; }
-      if (box) box.hidden = false;
+      if (box) {
+        box.hidden = false;
+        box.classList.remove('board--secret');
+        const secret = box.querySelector('.board__secret');
+        if (secret) secret.remove();
+      }
       const limit = +el.dataset.board || 10;
       el.innerHTML = rows.length
         ? rows.slice(0, limit).map((r, i) =>
@@ -372,6 +381,14 @@
     // il record da battere è il primo della classifica (se la classifica non è disponibile resta quello di loadStats)
     const recEl = $('#sfida-record');
     if (recEl && rows) recEl.textContent = rows[0] ? rows[0].punteggio : 0;
+  }
+
+  // Dopo le 22: i testi annunciano la classifica finale
+  function revealTexts() {
+    const prize = $('.game__prize');
+    if (prize) prize.innerHTML = '🏆 <b>Classifica finale!</b> La gara è chiusa: ecco chi ha fatto più CFU. Puoi ancora giocare per divertimento, ma i punteggi non vengono salvati.';
+    const sfida = document.querySelector('#sfida .sfida p');
+    if (sfida) sfida.innerHTML = '<b>Classifica finale! 🏆</b> La gara è chiusa: qui sotto trovi chi ha vinto. Il gioco resta aperto per divertimento.';
   }
 
   // Gara chiusa: righe finte sfocate e messaggio, nessun nome né punteggio reale nella pagina
@@ -425,6 +442,8 @@
   }
 
   function init() {
+    const wait = revealAt() - Date.now();
+    if (window.FESTA.giocoChiuso && wait > 0 && wait < 864e5) setTimeout(loadBoard, wait + 5000);
     canvas = $('#game-canvas');
     ctx = canvas.getContext('2d');
     window.addEventListener('resize', () => { if (!$('#game').hidden) resize(); });
