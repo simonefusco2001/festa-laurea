@@ -24,6 +24,8 @@ const BLOCKED = [
 ];
 const COL = HEADERS.reduce((o, h, i) => (o[h] = i + 1, o), {});
 const MAX_SCORE = 100000;
+// Gara chiusa: nessun nuovo punteggio e classifica segreta (il foglio resta l'unico posto dove vederla)
+const GARA_CHIUSA = true;
 
 // ---------- Menu nel foglio ----------
 function onOpen() {
@@ -115,6 +117,7 @@ function rsvp_(d) {
 }
 
 function score_(d) {
+  if (GARA_CHIUSA) return { ok: false, error: 'gara chiusa' };
   const s = Math.floor(Number(d.score));
   if (!isFinite(s) || s < 0 || s > MAX_SCORE) return { ok: false, error: 'punteggio non valido' };
   const row = findOrCreate_(d);
@@ -138,6 +141,7 @@ function iban_(d) {
 
 // Classifica del minigioco: i 10 migliori, mostrati come "Marco R." per non esporre i cognomi
 function classifica_(d) {
+  if (GARA_CHIUSA) return { ok: true, top: [], segreta: true };
   const sh = sheet_();
   const last = sh.getLastRow();
   if (last < 2) return { ok: true, top: [] };
@@ -167,7 +171,7 @@ function stats_() {
     ok: true,
     yes: data.filter(r => r[COL.risposta - 1] === 'Sì').length,
     totale: data.length,
-    record: data.reduce((m, r) => Math.max(m, Number(r[COL.punteggio - 1]) || 0), 0)
+    record: GARA_CHIUSA ? null : data.reduce((m, r) => Math.max(m, Number(r[COL.punteggio - 1]) || 0), 0)
   };
 }
 

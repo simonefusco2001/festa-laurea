@@ -17,6 +17,8 @@ window.FESTA = {
   },
   // URL dell'Apps Script pubblicato (vedi il passo "Sheet + script").
   // Vuoto = modalità demo: le risposte restano solo nel tuo browser.
+  // Gara chiusa: il gioco resta giocabile ma non salva punteggi e la classifica è segreta
+  giocoChiuso: true,
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyR3BMJ8pquToaXrNV1Eaxb5Gi9b8ny6okLg9ldNDdnwsL5TMmFJNF9SlCt0rNmRUGl/exec',
   // Usato solo in modalità demo
   confermatiDemo: 23,

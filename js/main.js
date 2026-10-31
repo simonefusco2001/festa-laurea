@@ -88,7 +88,7 @@
         if (j && typeof j.record === 'number') record = j.record;
       } catch (e) {}
     }
-    $('#sfida-record').textContent = record;
+    $('#sfida-record').textContent = F.giocoChiuso ? '???' : record;
     // la prova sociale si mostra solo quando i numeri convincono: "0 persone" farebbe l'effetto opposto
     if (yes >= 5) {
       $('#proof-few').hidden = true;

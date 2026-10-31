@@ -315,7 +315,9 @@
     canvas.parentElement.classList.add('shake');
     setTimeout(() => canvas.parentElement.classList.remove('shake'), 400);
 
-    if (best <= getSaved()) {
+    if (window.FESTA.giocoChiuso) {
+      setStatus('Gara chiusa: punteggio non salvato. Il vincitore sarà svelato alla festa!');
+    } else if (best <= getSaved()) {
       setStatus(`Il tuo record (${best} CFU) è già in classifica.`);
     } else if (!Festa.getToken() && !getNome()) {
       setStatus('↓ Scrivi il tuo nome qui sotto per entrare in classifica');
@@ -349,6 +351,7 @@
 
   // Classifica generale: mostra solo nome e iniziale del cognome
   async function loadBoard() {
+    if (window.FESTA.giocoChiuso) return secretBoard();
     let rows = null;
     try {
       const res = await Festa.api({ action: 'classifica' });
@@ -369,6 +372,23 @@
     // il record da battere è il primo della classifica (se la classifica non è disponibile resta quello di loadStats)
     const recEl = $('#sfida-record');
     if (recEl && rows) recEl.textContent = rows[0] ? rows[0].punteggio : 0;
+  }
+
+  // Gara chiusa: righe finte sfocate e messaggio, nessun nome né punteggio reale nella pagina
+  function secretBoard() {
+    const fake = ['Xxxxxxx X.', 'Xxxxx X.', 'Xxxxxxxx X.', 'Xxxxxx X.', 'Xxxxx X.', 'Xxxxxxx X.'];
+    document.querySelectorAll('[data-board]').forEach(el => {
+      const box = el.closest('[data-board-box]');
+      if (box) { box.hidden = false; box.classList.add('board--secret'); }
+      const limit = +el.dataset.board || 10;
+      el.innerHTML = fake.slice(0, Math.min(limit, fake.length)).map((n, i) =>
+        `<li><span class="pos">${['🥇', '🥈', '🥉'][i] || (i + 1) + '°'}</span><span class="who">${n}</span><b>?????</b></li>`).join('');
+      if (box && !box.querySelector('.board__secret')) {
+        box.insertAdjacentHTML('beforeend', '<p class="board__secret">🤫 Classifica segreta<br><span>Il vincitore sarà proclamato alla festa</span></p>');
+      }
+    });
+    const recEl = $('#sfida-record');
+    if (recEl) recEl.textContent = '???';
   }
 
   function escapeHtml(s) {

@@ -186,6 +186,14 @@ section { padding: 72px 0; }
 .board li b { font-family: var(--font-head); font-weight: 800; }
 .board li.me { background: var(--yellow); border-radius: 8px; border-bottom-color: transparent; }
 .board li.empty { justify-content: center; color: #555; font-size: 14px; }
+.board--secret { position: relative; }
+.board--secret ol { filter: blur(6px); user-select: none; pointer-events: none; }
+.board__secret {
+  position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%) rotate(-2deg); margin: 0; width: max-content; max-width: 88%;
+  text-align: center; font-family: var(--font-head); font-weight: 800; font-size: 18px; line-height: 1.25;
+  background: var(--yellow); border: var(--border); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 14px;
+}
+.board__secret span { font-family: var(--font-body); font-weight: 600; font-size: 13px; }
 .board--page { margin: 24px auto 28px; transform: rotate(1deg); }
 .game__skip { background: none; border: 0; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 8px; margin-top: 24px; color: var(--ink); }
 .sfida { text-align: center; transform: rotate(-1deg); }
